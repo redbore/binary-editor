@@ -1,0 +1,19 @@
+plugins {
+    id 'org.springframework.boot'
+    id 'java'
+}
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'ru.editor'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile lib.lombok
+    compile lib.simpl_xml
+}

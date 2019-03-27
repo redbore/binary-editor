@@ -1,0 +1,2 @@
+binaryFilePath = example1
+xmlFilePath = example1.xml
