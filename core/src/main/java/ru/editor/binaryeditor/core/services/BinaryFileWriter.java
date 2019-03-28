@@ -20,7 +20,7 @@ public class BinaryFileWriter {
 
   private ByteBuffer byteBuffer;
 
-  public void write(BinaryFile binaryFile) throws Exception {
+  public BinaryFile write(BinaryFile binaryFile) throws Exception {
     XmlFile xmlFile = xmlFileReader.read();
     byteBuffer = ByteBuffer.allocate(binaryFile.getSize(xmlFile));
 
@@ -30,6 +30,7 @@ public class BinaryFileWriter {
     Files.write(settingsService.getBinaryFilePath(), byteBuffer.array());
 
     byteBuffer = null;
+    return binaryFile;
   }
 
   private void writeType(Type type, XmlSegment xmlSegment) {

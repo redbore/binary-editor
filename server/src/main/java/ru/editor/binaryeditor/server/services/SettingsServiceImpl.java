@@ -15,21 +15,23 @@ public class SettingsServiceImpl implements SettingsService {
   private final FileBasedConfigurationBuilder<FileBasedConfiguration> fileBasedConfigurationBuilder;
 
   @Override
-  public void saveXmlFilePath(String path) {
+  public Path saveXmlFilePath(Path path) {
     try {
       fileBasedConfiguration.setProperty("xmlFilePath", path);
       fileBasedConfigurationBuilder.save();
     } catch (ConfigurationException ignored) {
     }
+    return path;
   }
 
   @Override
-  public void saveBinaryFilePath(String path) {
+  public Path saveBinaryFilePath(Path path) {
     try {
       fileBasedConfiguration.setProperty("binaryFilePath", path);
       fileBasedConfigurationBuilder.save();
     } catch (ConfigurationException ignored) {
     }
+    return path;
   }
 
   @Override

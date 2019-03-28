@@ -4,9 +4,9 @@ import java.nio.file.Path;
 
 public interface SettingsService {
 
-  void saveXmlFilePath(String path);
+  Path saveXmlFilePath(Path path);
 
-  void saveBinaryFilePath(String path);
+  Path saveBinaryFilePath(Path path);
 
   Path getXmlFilePath();
 

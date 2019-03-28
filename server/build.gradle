@@ -5,7 +5,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'ru.editor'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -15,9 +14,9 @@ repositories {
 
 dependencies {
     compile project(":core")
-    compile lib.commons_configuration2
-    compile lib.spring_boot
+    implementation lib.commons_configuration2
+    implementation lib.spring_boot
     compile lib.lombok
     compile lib.commons_beanutils
-    compile lib.spring_boot_starter_web
+    implementation lib.spring_boot_starter_web
 }

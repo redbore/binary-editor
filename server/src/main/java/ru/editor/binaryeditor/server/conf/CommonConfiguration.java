@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.editor.binaryeditor.core.services.BinaryFileReader;
 import ru.editor.binaryeditor.core.services.BinaryFileWriter;
-import ru.editor.binaryeditor.core.services.EditorOperations;
 import ru.editor.binaryeditor.core.services.SettingsService;
 import ru.editor.binaryeditor.core.services.XmlFileReader;
+import ru.editor.binaryeditor.server.services.EditorOperations;
 import ru.editor.binaryeditor.server.services.SettingsServiceImpl;
 
 @Configuration
