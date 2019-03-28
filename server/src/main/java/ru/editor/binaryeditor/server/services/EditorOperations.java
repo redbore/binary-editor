@@ -25,17 +25,17 @@ public class EditorOperations {
   }
 
   public Paths getPaths() {
-    return Paths.builder()
-        .binary(settingsService.getBinaryFilePath())
-        .xml(settingsService.getXmlFilePath())
-        .build();
+    return new Paths(
+        settingsService.getBinaryFilePath(),
+        settingsService.getXmlFilePath()
+    );
   }
 
   public Paths createPaths(Paths paths) {
-    return Paths.builder()
-        .binary(settingsService.saveBinaryFilePath(paths.getBinary()))
-        .xml(settingsService.saveXmlFilePath(paths.getXml()))
-        .build();
+    return new Paths(
+        settingsService.saveBinaryFilePath(paths.getBinary()),
+        settingsService.saveXmlFilePath(paths.getXml())
+    );
   }
 
   public void suicide() {

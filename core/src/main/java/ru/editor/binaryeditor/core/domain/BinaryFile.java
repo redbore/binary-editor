@@ -17,9 +17,6 @@ public class BinaryFile {
   @NonNull
   private List<Type> types;
 
-  @NonNull
-  private byte[] bytes;
-
   public Integer getSize(XmlFile xmlFile) {
     return xmlFile.getXmlSegments().stream()
         .map(xmlSegment -> xmlSegment.getXmlFields().stream()

@@ -1,14 +1,12 @@
 package ru.editor.binaryeditor.core.services;
 
-import java.nio.file.Path;
-
 public interface SettingsService {
 
-  Path saveXmlFilePath(Path path);
+  String saveXmlFilePath(String path);
 
-  Path saveBinaryFilePath(Path path);
+  String saveBinaryFilePath(String path);
 
-  Path getXmlFilePath();
+  String getXmlFilePath();
 
-  Path getBinaryFilePath();
+  String getBinaryFilePath();
 }

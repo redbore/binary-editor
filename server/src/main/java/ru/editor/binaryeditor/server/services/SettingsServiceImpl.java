@@ -1,6 +1,5 @@
 package ru.editor.binaryeditor.server.services;
 
-import java.nio.file.Path;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
@@ -15,7 +14,7 @@ public class SettingsServiceImpl implements SettingsService {
   private final FileBasedConfigurationBuilder<FileBasedConfiguration> fileBasedConfigurationBuilder;
 
   @Override
-  public Path saveXmlFilePath(Path path) {
+  public String saveXmlFilePath(String path) {
     try {
       fileBasedConfiguration.setProperty("xmlFilePath", path);
       fileBasedConfigurationBuilder.save();
@@ -25,7 +24,7 @@ public class SettingsServiceImpl implements SettingsService {
   }
 
   @Override
-  public Path saveBinaryFilePath(Path path) {
+  public String saveBinaryFilePath(String path) {
     try {
       fileBasedConfiguration.setProperty("binaryFilePath", path);
       fileBasedConfigurationBuilder.save();
@@ -35,14 +34,14 @@ public class SettingsServiceImpl implements SettingsService {
   }
 
   @Override
-  public Path getXmlFilePath() {
+  public String getXmlFilePath() {
     String xmlFilePath = fileBasedConfiguration.getString("xmlFilePath");
-    return Path.of(xmlFilePath == null ? "" : xmlFilePath);
+    return xmlFilePath == null ? "" : xmlFilePath;
   }
 
   @Override
-  public Path getBinaryFilePath() {
+  public String getBinaryFilePath() {
     String binaryFilePath = fileBasedConfiguration.getString("binaryFilePath");
-    return Path.of(binaryFilePath == null ? "" : binaryFilePath);
+    return binaryFilePath == null ? "" : binaryFilePath;
   }
 }

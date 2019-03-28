@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,14 +36,13 @@ public class BinaryFileReader {
   public BinaryFile read() throws Exception {
     XmlFile xmlFile = xmlFileReader.read();
 
-    bytes = Files.readAllBytes(settingsService.getBinaryFilePath());
+    bytes = Files.readAllBytes(Path.of(settingsService.getBinaryFilePath()));
     offset = new AtomicInteger();
     tempTypes = new ArrayList<>();
 
     BinaryFile binaryFile = BinaryFile.builder()
         .uuid(UUID.randomUUID())
         .types(readTypes(xmlFile.getXmlSegments()))
-        .bytes(bytes)
         .build();
 
     bytes = null;

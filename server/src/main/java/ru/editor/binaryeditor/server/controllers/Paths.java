@@ -1,20 +1,20 @@
 package ru.editor.binaryeditor.server.controllers;
 
-import java.nio.file.Path;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 
 @Valid
 @Getter
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Paths {
-  @NonNull
+
   @NotNull
-  private final Path binary;
-  @NonNull
+  private String binary;
+
   @NotNull
-  private final Path xml;
+  private String xml;
 }
