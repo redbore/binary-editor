@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import ru.editor.binaryeditor.core.domain.BinaryFile;
 import ru.editor.binaryeditor.core.domain.Field;
 import ru.editor.binaryeditor.core.domain.Instance;
+import ru.editor.binaryeditor.core.domain.Paths;
 import ru.editor.binaryeditor.core.domain.Type;
 import ru.editor.binaryeditor.core.domain.XmlField;
 import ru.editor.binaryeditor.core.domain.XmlFile;
@@ -16,19 +17,18 @@ import ru.editor.binaryeditor.core.domain.XmlSegment;
 @RequiredArgsConstructor
 public class BinaryFileWriter {
 
-  private final SettingsService settingsService;
   private final XmlFileReader xmlFileReader;
 
   private ByteBuffer byteBuffer;
 
-  public BinaryFile write(BinaryFile binaryFile) throws Exception {
-    XmlFile xmlFile = xmlFileReader.read();
+  public BinaryFile write(BinaryFile binaryFile, Paths paths) throws Exception {
+    XmlFile xmlFile = xmlFileReader.read(paths.getXml());
     byteBuffer = ByteBuffer.allocate(binaryFile.getSize(xmlFile));
 
     binaryFile.getTypes()
         .forEach(type -> writeType(type, xmlFile.findXmlSegment(type.getName())));
 
-    Files.write(Path.of(settingsService.getBinaryFilePath()), byteBuffer.array());
+    Files.write(Path.of(paths.getBinary()), byteBuffer.array());
 
     byteBuffer = null;
     return binaryFile;

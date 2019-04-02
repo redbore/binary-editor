@@ -3,10 +3,10 @@ package ru.editor.binaryeditor.server.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.editor.binaryeditor.core.domain.BinaryFile;
+import ru.editor.binaryeditor.core.domain.Paths;
 import ru.editor.binaryeditor.core.services.BinaryFileReader;
 import ru.editor.binaryeditor.core.services.BinaryFileWriter;
-import ru.editor.binaryeditor.core.services.SettingsService;
-import ru.editor.binaryeditor.server.controllers.Paths;
+import ru.editor.binaryeditor.server.controllers.SaveBinaryFile;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -16,26 +16,18 @@ public class EditorOperations {
   private final BinaryFileWriter binaryFileWriter;
   private final SettingsService settingsService;
 
-  public BinaryFile getBinaryFile() throws Exception {
-    return binaryFileReader.read();
+  public BinaryFile openBinaryFile(Paths paths) throws Exception {
+    return binaryFileReader.read(paths);
   }
 
-  public BinaryFile createBinaryFile(BinaryFile binaryFile) throws Exception {
-    return binaryFileWriter.write(binaryFile);
+  public BinaryFile saveBinaryFile(SaveBinaryFile saveFile) throws Exception {
+    BinaryFile write = binaryFileWriter.write(saveFile.getBinaryFile(), saveFile.getPaths());
+    settingsService.savePaths(saveFile.getPaths());
+    return write;
   }
 
   public Paths getPaths() {
-    return new Paths(
-        settingsService.getBinaryFilePath(),
-        settingsService.getXmlFilePath()
-    );
-  }
-
-  public Paths createPaths(Paths paths) {
-    return new Paths(
-        settingsService.saveBinaryFilePath(paths.getBinary()),
-        settingsService.saveXmlFilePath(paths.getXml())
-    );
+    return settingsService.getPaths();
   }
 
   public void suicide() {

@@ -1,0 +1,16 @@
+.table {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.table-names {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 1%;
+}
+
+.paths {
+  margin-bottom: 1%;
+}

@@ -16,6 +16,11 @@
 
     <dependency>
       <groupId>ru.editor</groupId>
+      <artifactId>angular</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>ru.editor</groupId>
       <artifactId>core</artifactId>
     </dependency>
 

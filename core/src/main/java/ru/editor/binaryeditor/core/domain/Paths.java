@@ -1,20 +1,17 @@
-package ru.editor.binaryeditor.server.controllers;
+package ru.editor.binaryeditor.core.domain;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Valid
 @Getter
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Paths {
 
-  @NotNull
   private String binary;
 
-  @NotNull
   private String xml;
 }

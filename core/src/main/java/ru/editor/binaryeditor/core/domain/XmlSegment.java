@@ -25,6 +25,4 @@ public class XmlSegment {
         .findFirst()
         .orElseThrow(RuntimeException::new);
   }
-
-
 }

@@ -27,11 +27,11 @@ public class BinaryFile {
         .orElseThrow(RuntimeException::new);
   }
 
-  public Integer getInstanceSize(String typeName) {
+  private Integer getInstanceSize(String typeName) {
     return findType(typeName).getInstances().size();
   }
 
-  public Type findType(String typeName) {
+  private Type findType(String typeName) {
     return types.stream()
         .filter(type -> type.getName().equals(typeName))
         .findFirst()

@@ -1,0 +1,30 @@
+<div class="table">
+  <div class="paths">
+    <br>
+    XML <input type="text" name="specification" [(ngModel)]="paths.xml"/>
+    Binary <input type="text" name="binary" [(ngModel)]="paths.binary"/>
+    <button (click)="openBinaryFile()">Open file</button>
+    <button (click)="saveBinaryFile()">Save file</button>
+  </div>
+  <div class="table-names">
+    <button *ngFor="let type of binaryFile.types"
+            (click)="selectType(type.uuid)">{{type.name}}</button>
+  </div>
+
+  <div>
+    <button (click)="createRow()">Create row</button>
+  </div>
+  <table border="1">
+    <tr>
+      <th *ngFor="let fieldName of fieldNames">{{fieldName}}</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let  instance of selectedType.instances">
+      <td *ngFor="let field of instance.fields"><input
+          (blur)="editField(row.uuid, fieldName, $event)" type="text"
+          value="{{row.fields[fieldName]}}"/></td>
+      <button (click)="deleteRow(row.uuid)">delete</button>
+    </tr>
+  </table>
+
+</div>

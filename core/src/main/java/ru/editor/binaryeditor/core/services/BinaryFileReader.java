@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import ru.editor.binaryeditor.core.domain.BinaryFile;
 import ru.editor.binaryeditor.core.domain.Field;
 import ru.editor.binaryeditor.core.domain.Instance;
+import ru.editor.binaryeditor.core.domain.Paths;
 import ru.editor.binaryeditor.core.domain.Type;
 import ru.editor.binaryeditor.core.domain.XmlField;
 import ru.editor.binaryeditor.core.domain.XmlFile;
@@ -23,7 +24,6 @@ import ru.editor.binaryeditor.core.domain.XmlSegment;
 @RequiredArgsConstructor
 public class BinaryFileReader {
 
-  private final SettingsService settingsService;
   private final XmlFileReader xmlFileReader;
 
   private byte[] bytes;
@@ -33,10 +33,10 @@ public class BinaryFileReader {
    */
   private List<Type> tempTypes;
 
-  public BinaryFile read() throws Exception {
-    XmlFile xmlFile = xmlFileReader.read();
+  public BinaryFile read(Paths paths) throws Exception {
+    XmlFile xmlFile = xmlFileReader.read(paths.getXml());
 
-    bytes = Files.readAllBytes(Path.of(settingsService.getBinaryFilePath()));
+    bytes = Files.readAllBytes(Path.of(paths.getBinary()));
     offset = new AtomicInteger();
     tempTypes = new ArrayList<>();
 
