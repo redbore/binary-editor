@@ -2,9 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
-import {Paths} from '../dto/Paths';
-import {BinaryFile} from "../dto/BinaryFile";
-import {SaveBinaryFile} from "../dto/SaveBinaryFile";
+import {Paths} from "../dto/Paths";
 
 @Injectable()
 export class ApiService {
@@ -14,24 +12,32 @@ export class ApiService {
     this.host = environment.backendHost;
   }
 
-  getPaths(): Observable<Paths> {
-    return this.get('/paths');
+  public selectTable(tableId: string): Observable<any> {
+    return this.post(`/tables/${tableId}`);
   }
 
-  openBinaryFile(paths: Paths): Observable<BinaryFile> {
-    return this.post('/binary-file', paths);
+  public getView(): Observable<any> {
+    return this.get(`/file`);
   }
 
-  saveBinaryFile(saveBinaryFile: SaveBinaryFile): Observable<any> {
-    return this.put('/binary-file', saveBinaryFile);
+  public openBinaryFile(paths: Paths): Observable<any> {
+    return this.post(`/file/open`, paths);
+  }
+
+  public saveBinaryFile(paths: Paths): Observable<any> {
+    return this.post(`/file/save`, paths);
+  }
+
+  public getPaths(): Observable<Paths> {
+    return this.get(`/paths`);
+  }
+
+  public editField(tableId: string, rowId: string, fieldId: string, value: any): Observable<any> {
+    return this.post(`/tables/${tableId}/rows/${rowId}/fields/${fieldId}`, value)
   }
 
   suicide(): Observable<any> {
-    return this.post('/suicide');
-  }
-
-  put<T>(path: string, body?: any, options?: any): Observable<any> {
-    return this.http.put<T>(this.host + path, body, options);
+    return this.post('/actuator/shutdown');
   }
 
   get<T>(path: string): Observable<any> {

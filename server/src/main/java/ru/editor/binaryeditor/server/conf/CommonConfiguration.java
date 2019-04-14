@@ -9,9 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.editor.binaryeditor.core.services.BinaryFileReader;
 import ru.editor.binaryeditor.core.services.BinaryFileWriter;
+import ru.editor.binaryeditor.core.services.Editor;
+import ru.editor.binaryeditor.core.services.SettingsService;
 import ru.editor.binaryeditor.core.services.XmlFileReader;
-import ru.editor.binaryeditor.server.services.EditorOperations;
-import ru.editor.binaryeditor.server.services.SettingsService;
+import ru.editor.binaryeditor.server.services.SettingsServiceImpl;
 
 @Configuration
 public class CommonConfiguration {
@@ -36,7 +37,7 @@ public class CommonConfiguration {
       FileBasedConfiguration fileBasedConfiguration,
       FileBasedConfigurationBuilder<FileBasedConfiguration> fileBasedConfigurationBuilder
   ) {
-    return new SettingsService(fileBasedConfiguration, fileBasedConfigurationBuilder);
+    return new SettingsServiceImpl(fileBasedConfiguration, fileBasedConfigurationBuilder);
   }
 
   @Bean
@@ -45,10 +46,8 @@ public class CommonConfiguration {
   }
 
   @Bean
-  public BinaryFileReader binaryFileReader(
-      XmlFileReader xmlFileReader
-  ) {
-    return new BinaryFileReader(xmlFileReader);
+  public BinaryFileReader binaryFileReader() {
+    return new BinaryFileReader();
   }
 
   @Bean
@@ -59,11 +58,14 @@ public class CommonConfiguration {
   }
 
   @Bean
-  public EditorOperations editorOperations(
+  public Editor editorOperations(
       BinaryFileReader binaryFileReader,
       BinaryFileWriter binaryFileWriter,
+      XmlFileReader xmlFileReader,
       SettingsService settingsService
   ) {
-    return new EditorOperations(binaryFileReader, binaryFileWriter, settingsService);
+    return new Editor(
+        binaryFileReader, binaryFileWriter, xmlFileReader, settingsService
+    );
   }
 }

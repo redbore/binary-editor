@@ -12,10 +12,10 @@ import lombok.NonNull;
 public class BinaryFile {
 
   @NonNull
-  private UUID uuid;
+  private final UUID uuid;
 
   @NonNull
-  private List<Type> types;
+  private final List<Type> types;
 
   public Integer getSize(XmlFile xmlFile) {
     return xmlFile.getXmlSegments().stream()
@@ -24,17 +24,24 @@ public class BinaryFile {
             .reduce((a, b) -> a + b))
         .mapToInt(OptionalInt::getAsInt)
         .reduce((a, b) -> a + b)
-        .orElseThrow(RuntimeException::new);
+        .orElseThrow(() -> new RuntimeException("File size error"));
   }
 
   private Integer getInstanceSize(String typeName) {
     return findType(typeName).getInstances().size();
   }
 
-  private Type findType(String typeName) {
+  public Type findType(String typeName) {
     return types.stream()
         .filter(type -> type.getName().equals(typeName))
         .findFirst()
-        .orElseThrow(RuntimeException::new);
+        .orElseThrow(() -> new RuntimeException("Type not found"));
+  }
+
+  public Type findType(UUID uuid) {
+    return types.stream()
+        .filter(type -> type.getUuid().equals(uuid))
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("Type not found"));
   }
 }

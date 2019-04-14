@@ -11,8 +11,16 @@ import lombok.NonNull;
 public class Instance {
 
   @NonNull
-  private UUID uuid;
+  private final UUID uuid;
 
   @NonNull
-  private List<Field> fields;
+  private final List<Field> fields;
+
+
+  public Field findField(UUID fieldId) {
+    return fields.stream()
+        .filter(field -> field.getUuid().equals(fieldId))
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("Field not found"));
+  }
 }

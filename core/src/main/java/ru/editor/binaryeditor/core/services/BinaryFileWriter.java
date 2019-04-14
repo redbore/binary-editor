@@ -1,9 +1,9 @@
 package ru.editor.binaryeditor.core.services;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import lombok.RequiredArgsConstructor;
 import ru.editor.binaryeditor.core.domain.BinaryFile;
 import ru.editor.binaryeditor.core.domain.Field;
@@ -28,7 +28,7 @@ public class BinaryFileWriter {
     binaryFile.getTypes()
         .forEach(type -> writeType(type, xmlFile.findXmlSegment(type.getName())));
 
-    Files.write(Path.of(paths.getBinary()), byteBuffer.array());
+    Files.write(new File(paths.getBinary()).toPath(), byteBuffer.array());
 
     byteBuffer = null;
     return binaryFile;

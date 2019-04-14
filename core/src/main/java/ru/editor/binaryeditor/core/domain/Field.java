@@ -4,16 +4,18 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Builder
 public class Field {
 
   @NonNull
-  private UUID uuid;
+  private final UUID uuid;
 
   @NonNull
-  private String name;
+  private final String name;
 
   @NonNull
   private Object value;

@@ -1,11 +1,12 @@
 package ru.editor.binaryeditor.core.services;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,8 +25,6 @@ import ru.editor.binaryeditor.core.domain.XmlSegment;
 @RequiredArgsConstructor
 public class BinaryFileReader {
 
-  private final XmlFileReader xmlFileReader;
-
   private byte[] bytes;
   private AtomicInteger offset;
   /**
@@ -33,10 +32,8 @@ public class BinaryFileReader {
    */
   private List<Type> tempTypes;
 
-  public BinaryFile read(Paths paths) throws Exception {
-    XmlFile xmlFile = xmlFileReader.read(paths.getXml());
-
-    bytes = Files.readAllBytes(Path.of(paths.getBinary()));
+  public BinaryFile read(Paths paths, XmlFile xmlFile) throws Exception {
+    bytes = Files.readAllBytes(new File(paths.getBinary()).toPath());
     offset = new AtomicInteger();
     tempTypes = new ArrayList<>();
 
@@ -63,7 +60,7 @@ public class BinaryFileReader {
         ? Type.builder()
         .uuid(UUID.randomUUID())
         .name(xmlSegment.getName())
-        .instances(List.of(readInstance(xmlSegment)))
+        .instances(Collections.singletonList(readInstance(xmlSegment)))
         .build()
 
         : Type.builder()

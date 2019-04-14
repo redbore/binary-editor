@@ -11,11 +11,18 @@ import lombok.NonNull;
 public class Type {
 
   @NonNull
-  private UUID uuid;
+  private final UUID uuid;
 
   @NonNull
-  private String name;
+  private final String name;
 
   @NonNull
-  private List<Instance> instances;
+  private final List<Instance> instances;
+
+  public Instance findInstance(UUID instanceId) {
+    return instances.stream()
+        .filter(instance -> instance.getUuid().equals(instanceId))
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("Instance not found"));
+  }
 }

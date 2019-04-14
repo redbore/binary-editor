@@ -5,9 +5,10 @@ import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import ru.editor.binaryeditor.core.domain.Paths;
+import ru.editor.binaryeditor.core.services.SettingsService;
 
 @RequiredArgsConstructor
-public class SettingsService {
+public class SettingsServiceImpl implements SettingsService {
 
   private final FileBasedConfiguration configuration;
 
