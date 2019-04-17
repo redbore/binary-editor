@@ -1,27 +1,44 @@
-<div class="table">
-  <div class="paths">
-    <br>
-    XML <input type="text" name="specification" [(ngModel)]="paths.xml"/>
-    Binary <input type="text" name="binary" [(ngModel)]="paths.binary"/>
-    <button (click)="openBinaryFile()">Open file</button>
-    <button (click)="saveBinaryFile()">Save file</button>
+<div class="paths">
+  <div class="form-group">
+    <label for="xml" class="text-label">XML file path</label>
+    <input id="xml" class="form-control" type="text" name="specification"
+           [(ngModel)]="paths.xml"/>
   </div>
-  <div class="table-names">
-    <button *ngFor="let tableName of view.tablesNames"
-            (click)="selectType(type.uuid)">{{tableName.name}}</button>
+  <div class="form-group">
+    <label for="binary" class="text-label">Binary file path</label>
+    <input id="binary" class="form-control" type="text" name="binary" [(ngModel)]="paths.binary"/>
   </div>
-  <!--
-    <table border="1">
+</div>
+<div class="paths-buttons">
+  <button class="btn btn-primary paths-button" (click)="openBinaryFile()">Open file</button>
+  <button class="btn btn-primary paths-button" (click)="saveBinaryFile()">Save file</button>
+</div>
+
+<div class="menu">
+
+  <div class="tables-names" *ngIf="view != null">
+    <button class="btn btn-secondary table-name" *ngFor="let tableName of view.tablesNames"
+            (click)="openTable(tableName.uuid)">{{tableName.name}}</button>
+  </div>
+
+  <div class="table table-striped" *ngIf="view != null">
+
+    <table style="width: 100%" *ngIf="view.selectedTable != null" border="1">
+      <thead class="thead-dark">
       <tr>
-        <th *ngFor="let column of selectedTableHeader.columns">{{column}}</th>
-        <th></th>
+        <th class="column text"
+            *ngFor="let columnName of view.selectedTable.columnsNames">{{columnName}}</th>
       </tr>
-      <tr *ngFor="let  instance of selectedType.rows">
-        <td *ngFor="let field of instance.fields"><input
-            (blur)="editField(row.uuid, fieldName, $event)" type="text"
-            value="{{row.fields[fieldName]}}"/></td>
-        <button (click)="deleteRow(row.uuid)">delete</button>
+      </thead>
+      <tbody>
+      <tr *ngFor="let  row of view.selectedTable.rows">
+        <td *ngFor="let field of row.fields">
+          <input class="form-control text" (blur)="editField(row.uuid, fieldName, $event)"
+                 type="text"
+                 value="{{field.value}}"/></td>
       </tr>
-    </table>-->
+      </tbody>
+    </table>
+  </div>
 
 </div>

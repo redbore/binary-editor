@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ApiService} from '../services/api.service';
-import {Paths} from '../dto/Paths';
+import {Editor, Paths} from '../dto/Editor';
 
 @Component({
   selector: 'app-table',
@@ -8,8 +8,8 @@ import {Paths} from '../dto/Paths';
   styleUrls: ['./table.component.css']
 })
 export class TableComponent {
-  view: any;
   paths: Paths;
+  view: Editor;
   apiService: ApiService;
 
   constructor(apiService: ApiService) {
@@ -18,20 +18,29 @@ export class TableComponent {
     this.getPaths();
   }
 
+  public openTable(uuid: string) {
+    this.apiService.openTable(uuid).subscribe(() => this.updateView());
+  }
+
   public getPaths() {
     this.apiService.getPaths().subscribe(paths => this.paths = paths);
   }
 
   public openBinaryFile() {
-    this.apiService.openBinaryFile(this.paths).subscribe(() => this.getView());
+    this.apiService.openBinaryFile(this.paths).subscribe(() => this.updateView());
   }
 
-  public getView() {
-    this.apiService.getView().subscribe(view => this.view = view);
+  public updateView() {
+    this.apiService.getView().subscribe(view => {
+          console.log(view);
+          this.view = view;
+          console.log(this.view);
+        }
+    );
   }
 
   public init() {
-    this.paths = new Paths('', '')
+    this.paths = new Paths('', '');
   }
 
 }

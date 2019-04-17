@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
-import {Paths} from "../dto/Paths";
+import {Editor, Paths} from "../dto/Editor";
 
 @Injectable()
 export class ApiService {
@@ -12,11 +12,11 @@ export class ApiService {
     this.host = environment.backendHost;
   }
 
-  public selectTable(tableId: string): Observable<any> {
+  public openTable(tableId: string): Observable<any> {
     return this.post(`/tables/${tableId}`);
   }
 
-  public getView(): Observable<any> {
+  public getView(): Observable<Editor> {
     return this.get(`/file`);
   }
 

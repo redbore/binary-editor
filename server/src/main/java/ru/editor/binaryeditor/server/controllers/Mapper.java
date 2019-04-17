@@ -63,7 +63,7 @@ public final class Mapper {
   private static RowDto toRowDto(Instance instance) {
     return RowDto.builder()
         .uuid(instance.getUuid())
-        .fieldsViews(instance.getFields().stream()
+        .fields(instance.getFields().stream()
             .map(Mapper::toFieldDto)
             .collect(Collectors.toList()))
         .uuid(instance.getUuid())

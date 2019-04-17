@@ -11,5 +11,5 @@ public class RowDto {
 
   private final UUID uuid;
 
-  private final List<FieldDto> fieldsViews;
+  private final List<FieldDto> fields;
 }
