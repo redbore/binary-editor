@@ -40,6 +40,18 @@
 }
 
 .paths-button {
-  margin: 5px;
+  margin: 0 5px 10px 0;
+}
+
+.logout {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1px;
+}
+
+.oops {
+  font-size: 100px;
+  font-weight: bold;
+  text-align: center;
 }
 

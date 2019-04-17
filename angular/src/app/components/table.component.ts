@@ -11,6 +11,7 @@ export class TableComponent {
   paths: Paths;
   view: Editor;
   apiService: ApiService;
+  active: boolean = true;
 
   constructor(apiService: ApiService) {
     this.apiService = apiService;
@@ -43,4 +44,8 @@ export class TableComponent {
     this.paths = new Paths('', '');
   }
 
+  public logout() {
+    this.active = false;
+    this.apiService.suicide().subscribe();
+  }
 }
