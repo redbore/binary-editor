@@ -31,6 +31,7 @@ public class Editor {
 
   public void saveFile(Paths paths) throws Exception {
     binaryFileWriter.write(binaryFile, paths);
+    openFile(paths);
   }
 
   public void editField(UUID typeId, UUID instanceId, UUID fieldId, Object value) {

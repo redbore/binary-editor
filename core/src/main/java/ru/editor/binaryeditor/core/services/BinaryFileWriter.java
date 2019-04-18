@@ -21,7 +21,7 @@ public class BinaryFileWriter {
 
   private ByteBuffer byteBuffer;
 
-  public BinaryFile write(BinaryFile binaryFile, Paths paths) throws Exception {
+  public void write(BinaryFile binaryFile, Paths paths) throws Exception {
     XmlFile xmlFile = xmlFileReader.read(paths.getXml());
     byteBuffer = ByteBuffer.allocate(binaryFile.getSize(xmlFile));
 
@@ -31,7 +31,6 @@ public class BinaryFileWriter {
     Files.write(new File(paths.getBinary()).toPath(), byteBuffer.array());
 
     byteBuffer = null;
-    return binaryFile;
   }
 
   private void writeType(Type type, XmlSegment xmlSegment) {
@@ -65,15 +64,27 @@ public class BinaryFileWriter {
   }
 
   private static Integer toInt(Object value) {
-    return value instanceof Integer ? (Integer) value : 0;
+    if (value instanceof String) {
+      return Integer.parseInt((String) value);
+    }
+    if (value instanceof Integer) {
+      return (Integer) value;
+    }
+    return 0;
   }
 
   private static Float toFloat(Object value) {
-    return value instanceof Float ? (Float) value : 0f;
+    if (value instanceof String) {
+      return Float.parseFloat((String) value);
+    }
+    if (value instanceof Float) {
+      return (Float) value;
+    }
+    return 0F;
   }
 
   private static String toString(Object value) {
-    return value instanceof String ? (String) value : "";
+    return value instanceof String ? (String) value : value.toString();
   }
 
   private static String fixSizeString(String value, Integer length) {

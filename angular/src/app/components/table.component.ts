@@ -31,13 +31,16 @@ export class TableComponent {
     this.apiService.openBinaryFile(this.paths).subscribe(() => this.updateView());
   }
 
+  public saveBinaryFile() {
+    this.apiService.saveBinaryFile(this.paths).subscribe(() => this.updateView());
+  }
+
+  public editField(tableId: string, rowId: string, fieldId: string, event: any) {
+    this.apiService.editField(tableId, rowId, fieldId, event.target.value).subscribe(() => this.updateView());
+  }
+
   public updateView() {
-    this.apiService.getView().subscribe(view => {
-          console.log(view);
-          this.view = view;
-          console.log(this.view);
-        }
-    );
+    this.apiService.getView().subscribe(view => this.view = view);
   }
 
   public init() {

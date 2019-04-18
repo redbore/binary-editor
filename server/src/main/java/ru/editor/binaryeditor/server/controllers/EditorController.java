@@ -4,7 +4,6 @@ import static ru.editor.binaryeditor.server.controllers.Mapper.toEditorDto;
 import static ru.editor.binaryeditor.server.controllers.Mapper.toPaths;
 import static ru.editor.binaryeditor.server.controllers.Mapper.toPathsDto;
 
-import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -62,9 +61,9 @@ public class EditorController {
       @PathVariable UUID tableId,
       @PathVariable UUID rowId,
       @PathVariable UUID fieldId,
-      @RequestBody Map value
+      @RequestBody String value
   ) {
-    editor.editField(tableId, rowId, fieldId, value.get("value"));
+    editor.editField(tableId, rowId, fieldId, value);
   }
 
 }

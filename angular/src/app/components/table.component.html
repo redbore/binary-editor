@@ -42,11 +42,10 @@
         <tbody>
         <tr *ngFor="let  row of view.selectedTable.rows">
           <td *ngFor="let field of row.fields">
-
-            <input class="form-control text" (blur)="editField(row.uuid, fieldName, $event)"
+            <input class="form-control text"
+                   (blur)="editField(view.selectedTable.uuid, row.uuid, field.uuid, $event)"
                    type="text"
                    value="{{field.value}}"/>
-
           </td>
         </tr>
         </tbody>
