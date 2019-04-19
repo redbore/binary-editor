@@ -16,12 +16,12 @@
 
     <dependency>
       <groupId>ru.editor</groupId>
-      <artifactId>angular</artifactId>
+      <artifactId>core</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>ru.editor</groupId>
-      <artifactId>core</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
     </dependency>
 
     <dependency>

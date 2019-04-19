@@ -4,10 +4,13 @@ import static ru.editor.binaryeditor.server.controllers.Mapper.toEditorDto;
 import static ru.editor.binaryeditor.server.controllers.Mapper.toPaths;
 import static ru.editor.binaryeditor.server.controllers.Mapper.toPathsDto;
 
+import java.util.Arrays;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +21,7 @@ import ru.editor.binaryeditor.core.services.Editor;
 import ru.editor.binaryeditor.server.controllers.dto.EditorDto;
 import ru.editor.binaryeditor.server.controllers.dto.PathsDto;
 
+@Log4j2
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
@@ -64,6 +68,13 @@ public class EditorController {
       @RequestBody String value
   ) {
     editor.editField(tableId, rowId, fieldId, value);
+  }
+
+  @ExceptionHandler(Exception.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public String exception(Exception e) {
+    log.info(e.getStackTrace());
+    return Arrays.toString(e.getStackTrace());
   }
 
 }

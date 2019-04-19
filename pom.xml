@@ -22,10 +22,17 @@
     <commons-beanutils.version>1.9.3</commons-beanutils.version>
     <simple-xml.version>2.7.1</simple-xml.version>
     <commons-configuration2.version>2.4</commons-configuration2.version>
+    <log4j-core.version>2.11.2</log4j-core.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${log4j-core.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>ru.editor</groupId>
@@ -36,12 +43,6 @@
       <dependency>
         <groupId>ru.editor</groupId>
         <artifactId>core</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>ru.editor</groupId>
-        <artifactId>angular</artifactId>
         <version>${project.version}</version>
       </dependency>
 
