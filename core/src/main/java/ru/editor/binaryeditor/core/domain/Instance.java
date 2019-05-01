@@ -19,11 +19,10 @@ public class Instance {
     @NonNull
     private final List<Field> fields;
 
-
-    public Field findField(UUID fieldId) {
+    public Field getField(UUID fieldId) {
         return fields.stream()
                 .filter(field -> field.uuid().equals(fieldId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Field not found"));
+                .orElseThrow(() -> new RuntimeException("Field not found: id=" + fieldId));
     }
 }

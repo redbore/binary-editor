@@ -2,7 +2,6 @@ package ru.editor.binaryeditor.core.services.type;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public interface TypeReader {
-
+public interface FieldReader {
     Object read(byte[] bytes, AtomicInteger offset, Integer length);
 }

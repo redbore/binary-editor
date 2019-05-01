@@ -16,19 +16,19 @@ public class SettingsServiceImpl implements SettingsService {
 
   public void savePaths(Paths paths) {
     try {
-        configuration.setProperty("xmlFilePath", paths.xml());
-        configuration.setProperty("binaryFilePath", paths.binary());
+      configuration.setProperty("xmlFilePath", paths.xml());
+      configuration.setProperty("binaryFilePath", paths.binary());
       configurationBuilder.save();
     } catch (ConfigurationException ignored) {
     }
   }
 
-  public Paths getPaths() {
+  public Paths paths() {
     String xmlFilePath = configuration.getString("xmlFilePath");
     String binaryFilePath = configuration.getString("binaryFilePath");
     return Paths.builder()
-        .xml(xmlFilePath == null ? "" : xmlFilePath)
-        .binary(binaryFilePath == null ? "" : binaryFilePath)
-        .build();
+            .xml(xmlFilePath == null ? "" : xmlFilePath)
+            .binary(binaryFilePath == null ? "" : binaryFilePath)
+            .build();
   }
 }

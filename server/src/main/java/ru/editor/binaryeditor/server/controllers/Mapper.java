@@ -18,37 +18,37 @@ public final class Mapper {
     }
     return EditorDto.builder()
             .tablesNames(toTablesNames(binaryFile.types()))
-        .selectedTable(selectedTable == null
-            ? null
-                : toTableDto(binaryFile.findType(selectedTable).instances(), selectedTable))
-        .build();
+            .selectedTable(selectedTable == null
+                    ? null
+                    : toTableDto(binaryFile.getType(selectedTable).instances(), selectedTable))
+            .build();
   }
 
   public static PathsDto toPathsDto(Paths paths) {
     return PathsDto.builder()
             .xml(paths.xml())
             .binary(paths.binary())
-        .build();
+            .build();
   }
 
   public static Paths toPaths(PathsDto paths) {
     return Paths.builder()
-        .xml(paths.getXml())
-        .binary(paths.getBinary())
-        .build();
+            .xml(paths.getXml())
+            .binary(paths.getBinary())
+            .build();
   }
 
   private static TableDto toTableDto(List<Instance> instances, UUID tableId) {
     return instances.isEmpty()
-        ? null
-        : TableDto.builder()
+            ? null
+            : TableDto.builder()
             .uuid(tableId)
             .columnsNames(instances.get(0).fields().stream()
                     .map(Field::name)
-                .collect(Collectors.toList()))
+                    .collect(Collectors.toList()))
             .rows(instances.stream()
-                .map(Mapper::toRowDto)
-                .collect(Collectors.toList()))
+                    .map(Mapper::toRowDto)
+                    .collect(Collectors.toList()))
             .build();
   }
 
@@ -56,10 +56,10 @@ public final class Mapper {
     return RowDto.builder()
             .uuid(instance.uuid())
             .fields(instance.fields().stream()
-            .map(Mapper::toFieldDto)
-            .collect(Collectors.toList()))
+                    .map(Mapper::toFieldDto)
+                    .collect(Collectors.toList()))
             .uuid(instance.uuid())
-        .build();
+            .build();
   }
 
   private static FieldDto toFieldDto(Field field) {
@@ -67,15 +67,15 @@ public final class Mapper {
             .name(field.name())
             .uuid(field.uuid())
             .value(field.value())
-        .build();
+            .build();
   }
 
   private static List<TableNameDto> toTablesNames(List<Type> types) {
     return types.stream()
-        .map(type -> TableNameDto.builder()
-                .name(type.name())
-                .uuid(type.uuid())
-            .build())
-        .collect(Collectors.toList());
+            .map(type -> TableNameDto.builder()
+                    .name(type.name())
+                    .uuid(type.uuid())
+                    .build())
+            .collect(Collectors.toList());
   }
 }

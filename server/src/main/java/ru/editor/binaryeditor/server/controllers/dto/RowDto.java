@@ -1,15 +1,16 @@
 package ru.editor.binaryeditor.server.controllers.dto;
 
-import java.util.List;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Builder
 public class RowDto {
 
-  private final UUID uuid;
+    private final UUID uuid;
 
-  private final List<FieldDto> fields;
+    private final List<FieldDto> fields;
 }

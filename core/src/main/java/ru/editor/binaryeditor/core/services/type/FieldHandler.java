@@ -5,13 +5,13 @@ import lombok.experimental.Accessors;
 
 @Getter
 @Accessors(fluent = true)
-public class TypeHandler {
+public class FieldHandler {
 
-    private final TypeReader reader;
+    private final FieldReader reader;
 
-    private final TypeWriter writer;
+    private final FieldWriter writer;
 
-    public TypeHandler(TypeReader reader, TypeWriter writer) {
+    public FieldHandler(FieldReader reader, FieldWriter writer) {
         this.reader = reader;
         this.writer = writer;
     }

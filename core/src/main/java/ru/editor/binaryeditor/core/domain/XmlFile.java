@@ -15,10 +15,10 @@ public class XmlFile {
     @ElementList(inline = true, name = "segment")
     private List<XmlSegment> xmlSegments;
 
-    public XmlSegment findXmlSegment(String xmlSegmentName) {
+    public XmlSegment getXmlSegment(String xmlSegmentName) {
         return xmlSegments.stream()
                 .filter(xmlSegments -> xmlSegments.name().equals(xmlSegmentName))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new RuntimeException("Xml segment not found: name=" + xmlSegmentName));
     }
 }

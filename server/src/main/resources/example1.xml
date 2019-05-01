@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <segments>
-  <segment name="header">
-    <field name="version" length="5" type="string"/>
-    <field name="segment_count" type="int"/>
-    <field name="file_type" length="4" type="string"/>
-  </segment>
-  <segment name="segment" count="header.segment_count">
-    <field name="id" type="int"/>
-    <field name="Chance_0" type="int"/>
-    <field name="Chance_1" type="int"/>
-    <field name="Chance_2" type="int"/>
-    <field name="Chance_3" type="int"/>
-    <field name="Type_0" type="int"/>
-    <field name="Type_1" type="int"/>
-    <field name="Type_2" type="int"/>
-    <field name="Type_3" type="int"/>
-    <field name="Value_0" type="int"/>
-    <field name="Value_1" type="int"/>
-    <field name="Value_2" type="int"/>
-    <field name="Value_3" type="int"/>
-    <field name="Amount_0" type="int"/>
-    <field name="Amount_1" type="int"/>
-    <field name="Amount_2" type="int"/>
-    <field name="Amount_3" type="int"/>
-    <field name="DataTo_0" type="int"/>
-    <field name="DataTo_1" type="int"/>
-    <field name="DataTo_2" type="int"/>
-    <field name="DataTo_3" type="int"/>
-    <field name="IconName_0" length="64" type="string"/>
-    <field name="IconName_1" length="64" type="string"/>
-    <field name="IconName_2" length="64" type="string"/>
-    <field name="IconName_3" length="64" type="string"/>
-  </segment>
+    <segment name="header">
+        <field name="version" length="5" type="string"/>
+        <field name="segment_count" type="int"/>
+        <field name="file_type" length="4" type="string"/>
+    </segment>
+    <segment name="segment" count="header.segment_count">
+        <field name="id" type="int"/>
+        <field name="Chance_0" type="int"/>
+        <field name="Chance_1" type="int"/>
+        <field name="Chance_2" type="int"/>
+        <field name="Chance_3" type="int"/>
+        <field name="Type_0" type="int"/>
+        <field name="Type_1" type="int"/>
+        <field name="Type_2" type="int"/>
+        <field name="Type_3" type="int"/>
+        <field name="Value_0" type="int"/>
+        <field name="Value_1" type="int"/>
+        <field name="Value_2" type="int"/>
+        <field name="Value_3" type="int"/>
+        <field name="Amount_0" type="int"/>
+        <field name="Amount_1" type="int"/>
+        <field name="Amount_2" type="int"/>
+        <field name="Amount_3" type="int"/>
+        <field name="DataTo_0" type="int"/>
+        <field name="DataTo_1" type="int"/>
+        <field name="DataTo_2" type="int"/>
+        <field name="DataTo_3" type="int"/>
+        <field name="IconName_0" length="64" type="string"/>
+        <field name="IconName_1" length="64" type="string"/>
+        <field name="IconName_2" length="64" type="string"/>
+        <field name="IconName_3" length="64" type="string"/>
+    </segment>
 </segments>
 

@@ -2,8 +2,8 @@ package ru.editor.binaryeditor.core.services;
 
 import lombok.RequiredArgsConstructor;
 import ru.editor.binaryeditor.core.domain.*;
-import ru.editor.binaryeditor.core.services.type.TypeHandlerFactory;
-import ru.editor.binaryeditor.core.services.type.TypeReader;
+import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
+import ru.editor.binaryeditor.core.services.type.FieldReader;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -20,7 +20,7 @@ import static ru.editor.binaryeditor.core.domain.Field.field;
 @RequiredArgsConstructor
 public class BinaryFileReader {
 
-    private final TypeHandlerFactory typeHandlerFactory;
+    private final FieldHandlerFactory fieldHandlerFactory;
 
     private byte[] bytes;
     private AtomicInteger offset;
@@ -90,7 +90,7 @@ public class BinaryFileReader {
     }
 
     private Field readField(XmlField xmlField) {
-        TypeReader reader = typeHandlerFactory.reader(xmlField.type());
+        FieldReader reader = fieldHandlerFactory.reader(xmlField.type());
         Object value = reader.read(bytes, offset, xmlField.length());
         return field(xmlField.name(), value);
     }

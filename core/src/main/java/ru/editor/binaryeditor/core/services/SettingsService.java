@@ -6,5 +6,5 @@ public interface SettingsService {
 
     void savePaths(Paths paths);
 
-    Paths getPaths();
+    Paths paths();
 }

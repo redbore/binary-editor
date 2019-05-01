@@ -7,21 +7,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TypeHandlerFactory {
+public class FieldHandlerFactory {
 
-    private final Map<String, TypeHandler> handlers = new HashMap<>();
+    private final Map<String, FieldHandler> handlers = new HashMap<>();
 
     private void init() {
-        handlers.put("int32", new TypeHandler(this::readInt32, this::writeInt32));
-        handlers.put("float32", new TypeHandler(this::readFloat32, this::writeFloat32));
-        handlers.put("string", new TypeHandler(this::readString, this::writeString));
+        handlers.put("int32", new FieldHandler(this::readInt32, this::writeInt32));
+        handlers.put("float32", new FieldHandler(this::readFloat32, this::writeFloat32));
+        handlers.put("string", new FieldHandler(this::readString, this::writeString));
     }
 
-    public TypeReader reader(String type) {
+    public FieldReader reader(String type) {
         return handlers.get(type).reader();
     }
 
-    public TypeWriter writer(String type) {
+    public FieldWriter writer(String type) {
         return handlers.get(type).writer();
     }
 

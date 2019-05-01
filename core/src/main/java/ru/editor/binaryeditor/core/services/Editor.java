@@ -37,21 +37,21 @@ public class Editor {
 
     public void editField(UUID typeId, UUID instanceId, UUID fieldId, Object value) {
         Field field = binaryFile
-                .findType(typeId)
-                .findInstance(instanceId)
-                .findField(fieldId);
+                .getType(typeId)
+                .getInstance(instanceId)
+                .getField(fieldId);
         field.value(value);
     }
 
-    public BinaryFile getBinaryFile() {
+    public BinaryFile binaryFile() {
         return binaryFile;
     }
 
-    public Paths getPaths() {
-        return settingsService.getPaths();
+    public Paths paths() {
+        return settingsService.paths();
     }
 
-    public UUID getSelectedTable() {
+    public UUID selectedTable() {
         return selectedTable;
     }
 }

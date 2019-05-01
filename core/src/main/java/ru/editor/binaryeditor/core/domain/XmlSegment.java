@@ -22,10 +22,10 @@ public class XmlSegment {
     @ElementList(inline = true, name = "field")
     private List<XmlField> xmlFields;
 
-    public XmlField findXmlField(String xmlFieldName) {
+    public XmlField getXmlField(String xmlFieldName) {
         return xmlFields.stream()
                 .filter(type -> type.name().equals(xmlFieldName))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new RuntimeException("Xml field not found: name=" + xmlFieldName));
     }
 }

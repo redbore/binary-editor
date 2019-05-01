@@ -2,8 +2,8 @@ package ru.editor.binaryeditor.core.services;
 
 import lombok.RequiredArgsConstructor;
 import ru.editor.binaryeditor.core.domain.*;
-import ru.editor.binaryeditor.core.services.type.TypeHandlerFactory;
-import ru.editor.binaryeditor.core.services.type.TypeWriter;
+import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
+import ru.editor.binaryeditor.core.services.type.FieldWriter;
 
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -13,7 +13,7 @@ import java.nio.file.Files;
 public class BinaryFileWriter {
 
     private final XmlFileReader xmlFileReader;
-    private final TypeHandlerFactory typeHandlerFactory;
+    private final FieldHandlerFactory fieldHandlerFactory;
 
     private ByteBuffer buffer;
 
@@ -22,7 +22,7 @@ public class BinaryFileWriter {
         buffer = ByteBuffer.allocate(binaryFile.getSize(xmlFile));
 
         binaryFile.types()
-                .forEach(type -> writeType(type, xmlFile.findXmlSegment(type.name())));
+                .forEach(type -> writeType(type, xmlFile.getXmlSegment(type.name())));
 
         Files.write(new File(paths.binary()).toPath(), buffer.array());
 
@@ -36,11 +36,11 @@ public class BinaryFileWriter {
 
     private void writeInstance(Instance instance, XmlSegment xmlSegment) {
         instance.fields()
-                .forEach(field -> writeField(field, xmlSegment.findXmlField(field.name())));
+                .forEach(field -> writeField(field, xmlSegment.getXmlField(field.name())));
     }
 
     private void writeField(Field field, XmlField xmlField) {
-        TypeWriter writer = typeHandlerFactory.writer(xmlField.type());
+        FieldWriter writer = fieldHandlerFactory.writer(xmlField.type());
         writer.write(buffer, field.value(), xmlField.length());
     }
 }

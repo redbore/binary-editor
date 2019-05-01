@@ -8,15 +8,15 @@ import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.editor.binaryeditor.core.services.*;
-import ru.editor.binaryeditor.core.services.type.TypeHandlerFactory;
+import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
 import ru.editor.binaryeditor.server.services.SettingsServiceImpl;
 
 @Configuration
 public class CommonConfiguration {
 
     @Bean(initMethod = "init")
-    public TypeHandlerFactory typeHandlerFactory() {
-        return new TypeHandlerFactory();
+    public FieldHandlerFactory typeHandlerFactory() {
+        return new FieldHandlerFactory();
     }
 
     @Bean
@@ -48,16 +48,16 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public BinaryFileReader binaryFileReader(TypeHandlerFactory typeHandlerFactory) {
-        return new BinaryFileReader(typeHandlerFactory);
+    public BinaryFileReader binaryFileReader(FieldHandlerFactory fieldHandlerFactory) {
+        return new BinaryFileReader(fieldHandlerFactory);
     }
 
     @Bean
     public BinaryFileWriter binaryFileWriter(
             XmlFileReader xmlFileReader,
-            TypeHandlerFactory typeHandlerFactory
+            FieldHandlerFactory fieldHandlerFactory
     ) {
-        return new BinaryFileWriter(xmlFileReader, typeHandlerFactory);
+        return new BinaryFileWriter(xmlFileReader, fieldHandlerFactory);
     }
 
     @Bean

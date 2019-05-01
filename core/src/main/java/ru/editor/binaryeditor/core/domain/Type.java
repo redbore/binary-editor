@@ -22,10 +22,10 @@ public class Type {
     @NonNull
     private final List<Instance> instances;
 
-    public Instance findInstance(UUID instanceId) {
+    public Instance getInstance(UUID instanceId) {
         return instances.stream()
                 .filter(instance -> instance.uuid().equals(instanceId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Instance not found"));
+                .orElseThrow(() -> new RuntimeException("Instance not found: id=" + instanceId));
     }
 }

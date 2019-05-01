@@ -31,20 +31,20 @@ public class BinaryFile {
     }
 
     private Integer getInstanceSize(String typeName) {
-        return findType(typeName).instances().size();
+        return getType(typeName).instances().size();
     }
 
-    public Type findType(String typeName) {
+    public Type getType(String typeName) {
         return types.stream()
                 .filter(type -> type.name().equals(typeName))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Type not found"));
+                .orElseThrow(() -> new RuntimeException("Type not found: name=" + typeName));
     }
 
-    public Type findType(UUID uuid) {
+    public Type getType(UUID uuid) {
         return types.stream()
                 .filter(type -> type.uuid().equals(uuid))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Type not found"));
+                .orElseThrow(() -> new RuntimeException("Type not found: id=" + uuid));
     }
 }
