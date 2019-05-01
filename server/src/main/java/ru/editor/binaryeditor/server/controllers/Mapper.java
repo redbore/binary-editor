@@ -1,21 +1,13 @@
 package ru.editor.binaryeditor.server.controllers;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import ru.editor.binaryeditor.core.domain.*;
+import ru.editor.binaryeditor.server.controllers.dto.*;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import ru.editor.binaryeditor.core.domain.BinaryFile;
-import ru.editor.binaryeditor.core.domain.Field;
-import ru.editor.binaryeditor.core.domain.Instance;
-import ru.editor.binaryeditor.core.domain.Paths;
-import ru.editor.binaryeditor.core.domain.Type;
-import ru.editor.binaryeditor.server.controllers.dto.EditorDto;
-import ru.editor.binaryeditor.server.controllers.dto.FieldDto;
-import ru.editor.binaryeditor.server.controllers.dto.PathsDto;
-import ru.editor.binaryeditor.server.controllers.dto.RowDto;
-import ru.editor.binaryeditor.server.controllers.dto.TableDto;
-import ru.editor.binaryeditor.server.controllers.dto.TableNameDto;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Mapper {
@@ -25,17 +17,17 @@ public final class Mapper {
       throw new RuntimeException("Binary file not found");
     }
     return EditorDto.builder()
-        .tablesNames(toTablesNames(binaryFile.getTypes()))
+            .tablesNames(toTablesNames(binaryFile.types()))
         .selectedTable(selectedTable == null
             ? null
-            : toTableDto(binaryFile.findType(selectedTable).getInstances(), selectedTable))
+                : toTableDto(binaryFile.findType(selectedTable).instances(), selectedTable))
         .build();
   }
 
   public static PathsDto toPathsDto(Paths paths) {
     return PathsDto.builder()
-        .xml(paths.getXml())
-        .binary(paths.getBinary())
+            .xml(paths.xml())
+            .binary(paths.binary())
         .build();
   }
 
@@ -51,8 +43,8 @@ public final class Mapper {
         ? null
         : TableDto.builder()
             .uuid(tableId)
-            .columnsNames(instances.get(0).getFields().stream()
-                .map(Field::getName)
+            .columnsNames(instances.get(0).fields().stream()
+                    .map(Field::name)
                 .collect(Collectors.toList()))
             .rows(instances.stream()
                 .map(Mapper::toRowDto)
@@ -62,27 +54,27 @@ public final class Mapper {
 
   private static RowDto toRowDto(Instance instance) {
     return RowDto.builder()
-        .uuid(instance.getUuid())
-        .fields(instance.getFields().stream()
+            .uuid(instance.uuid())
+            .fields(instance.fields().stream()
             .map(Mapper::toFieldDto)
             .collect(Collectors.toList()))
-        .uuid(instance.getUuid())
+            .uuid(instance.uuid())
         .build();
   }
 
   private static FieldDto toFieldDto(Field field) {
     return FieldDto.builder()
-        .name(field.getName())
-        .uuid(field.getUuid())
-        .value(field.getValue())
+            .name(field.name())
+            .uuid(field.uuid())
+            .value(field.value())
         .build();
   }
 
   private static List<TableNameDto> toTablesNames(List<Type> types) {
     return types.stream()
         .map(type -> TableNameDto.builder()
-            .name(type.getName())
-            .uuid(type.getUuid())
+                .name(type.name())
+                .uuid(type.uuid())
             .build())
         .collect(Collectors.toList());
   }

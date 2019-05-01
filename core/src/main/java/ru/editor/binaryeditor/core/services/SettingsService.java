@@ -4,7 +4,7 @@ import ru.editor.binaryeditor.core.domain.Paths;
 
 public interface SettingsService {
 
-  void savePaths(Paths paths);
+    void savePaths(Paths paths);
 
-  Paths getPaths();
+    Paths getPaths();
 }

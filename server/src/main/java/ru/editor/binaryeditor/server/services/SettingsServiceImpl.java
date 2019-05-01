@@ -16,8 +16,8 @@ public class SettingsServiceImpl implements SettingsService {
 
   public void savePaths(Paths paths) {
     try {
-      configuration.setProperty("xmlFilePath", paths.getXml());
-      configuration.setProperty("binaryFilePath", paths.getBinary());
+        configuration.setProperty("xmlFilePath", paths.xml());
+        configuration.setProperty("binaryFilePath", paths.binary());
       configurationBuilder.save();
     } catch (ConfigurationException ignored) {
     }

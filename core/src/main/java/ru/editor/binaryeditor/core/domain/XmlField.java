@@ -1,10 +1,12 @@
 package ru.editor.binaryeditor.core.domain;
 
 import lombok.Getter;
+import lombok.experimental.Accessors;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
 @Getter
+@Accessors(fluent = true)
 @Root(name = "field")
 public class XmlField {
 
