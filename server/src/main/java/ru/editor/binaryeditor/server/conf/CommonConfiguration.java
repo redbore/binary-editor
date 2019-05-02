@@ -15,7 +15,7 @@ import ru.editor.binaryeditor.server.services.SettingsServiceImpl;
 public class CommonConfiguration {
 
     @Bean(initMethod = "init")
-    public FieldHandlerFactory typeHandlerFactory() {
+    public FieldHandlerFactory fieldHandlerFactory() {
         return new FieldHandlerFactory();
     }
 
@@ -43,8 +43,8 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public XmlFileReader xmlFileReader() {
-        return new XmlFileReader();
+    public XmlFileReader xmlFileReader(FieldHandlerFactory fieldHandlerFactory) {
+        return new XmlFileReader(fieldHandlerFactory);
     }
 
     @Bean

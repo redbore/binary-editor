@@ -3,7 +3,6 @@ package ru.editor.binaryeditor.core.services;
 import lombok.RequiredArgsConstructor;
 import ru.editor.binaryeditor.core.domain.*;
 import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
-import ru.editor.binaryeditor.core.services.type.FieldWriter;
 
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -40,7 +39,6 @@ public class BinaryFileWriter {
     }
 
     private void writeField(Field field, XmlField xmlField) {
-        FieldWriter writer = fieldHandlerFactory.writer(xmlField.type());
-        writer.write(buffer, field.value(), xmlField.length());
+        fieldHandlerFactory.writer(xmlField.type()).write(buffer, field.value(), xmlField.length());
     }
 }

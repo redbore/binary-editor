@@ -14,12 +14,12 @@ public class FieldHandlerFactory {
     private final Map<String, FieldHandler> handlers = new HashMap<>();
 
     private void init() {
-        handlers.put("int16", new FieldHandler(this::readInt16, this::writeInt16));
-        handlers.put("int32", new FieldHandler(this::readInt32, this::writeInt32));
-        handlers.put("int64", new FieldHandler(this::readInt64, this::writeInt64));
-        handlers.put("float32", new FieldHandler(this::readFloat32, this::writeFloat32));
-        handlers.put("float64", new FieldHandler(this::readFloat64, this::writeFloat64));
-        handlers.put("string", new FieldHandler(this::readString, this::writeString));
+        handlers.put("int16", new FieldHandler(this::readInt16, this::writeInt16, Short.BYTES));
+        handlers.put("int32", new FieldHandler(this::readInt32, this::writeInt32, Integer.BYTES));
+        handlers.put("int64", new FieldHandler(this::readInt64, this::writeInt64, Long.BYTES));
+        handlers.put("float32", new FieldHandler(this::readFloat32, this::writeFloat32, Float.BYTES));
+        handlers.put("float64", new FieldHandler(this::readFloat64, this::writeFloat64, Double.BYTES));
+        handlers.put("string", new FieldHandler(this::readString, this::writeString, 0));
     }
 
     public FieldReader reader(String type) {
@@ -30,40 +30,40 @@ public class FieldHandlerFactory {
         return handlers.get(type).writer();
     }
 
-    private Short readInt16(byte[] bytes, AtomicInteger offset, Integer length) {
-        short value = ByteBuffer.wrap(bytes, offset.get(), Short.BYTES).order(ByteOrder.LITTLE_ENDIAN).getShort();
-        offset.addAndGet(length);
-        return value;
+    public Integer length(String type) {
+        return handlers.get(type).length();
     }
 
-    private Integer readInt32(byte[] bytes, AtomicInteger offset, Integer length) {
-        int value = ByteBuffer.wrap(bytes, offset.get(), Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN).getInt();
-        offset.addAndGet(length);
-        return value;
+    private Object readInt16(byte[] bytes, AtomicInteger offset, Integer length) {
+        return readNumber(bytes, offset, length).getShort();
     }
 
-    private Long readInt64(byte[] bytes, AtomicInteger offset, Integer length) {
-        long value = ByteBuffer.wrap(bytes, offset.get(), Long.BYTES).order(ByteOrder.LITTLE_ENDIAN).getLong();
-        offset.addAndGet(length);
-        return value;
+    private Object readInt32(byte[] bytes, AtomicInteger offset, Integer length) {
+        return readNumber(bytes, offset, length).getInt();
     }
 
-    private Float readFloat32(byte[] bytes, AtomicInteger offset, Integer length) {
-        float value = ByteBuffer.wrap(bytes, offset.get(), Float.BYTES).order(ByteOrder.LITTLE_ENDIAN).getFloat();
-        offset.addAndGet(length);
-        return value;
+    private Object readInt64(byte[] bytes, AtomicInteger offset, Integer length) {
+        return readNumber(bytes, offset, length).getLong();
     }
 
-    private Double readFloat64(byte[] bytes, AtomicInteger offset, Integer length) {
-        double value = ByteBuffer.wrap(bytes, offset.get(), Double.BYTES).order(ByteOrder.LITTLE_ENDIAN).getDouble();
-        offset.addAndGet(length);
-        return value;
+    private Object readFloat32(byte[] bytes, AtomicInteger offset, Integer length) {
+        return readNumber(bytes, offset, length).getFloat();
     }
 
-    private String readString(byte[] bytes, AtomicInteger offset, Integer length) {
+    private Object readFloat64(byte[] bytes, AtomicInteger offset, Integer length) {
+        return readNumber(bytes, offset, length).getDouble();
+    }
+
+    private Object readString(byte[] bytes, AtomicInteger offset, Integer length) {
         String value = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(bytes, offset.get(), length)).toString().trim();
         offset.addAndGet(length);
         return value;
+    }
+
+    private static ByteBuffer readNumber(byte[] bytes, AtomicInteger offset, Integer length) {
+        ByteBuffer buffer = ByteBuffer.wrap(bytes, offset.get(), length).order(ByteOrder.LITTLE_ENDIAN);
+        offset.addAndGet(length);
+        return buffer;
     }
 
     private void writeInt16(ByteBuffer buffer, Object value, Integer length) {
