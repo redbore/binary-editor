@@ -1,6 +1,16 @@
 package ru.editor.binaryeditor.core.services.type;
 
 public final class TypeConverter {
+    public static Byte toByte(Object value) {
+        if (value instanceof String) {
+            return Byte.parseByte((String) value);
+        }
+        if (value instanceof Byte) {
+            return (Byte) value;
+        }
+        return 0;
+    }
+
     public static Short toShort(Object value) {
         if (value instanceof String) {
             return Short.parseShort((String) value);

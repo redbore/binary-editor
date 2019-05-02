@@ -35,6 +35,7 @@ Description of a specific type in a binary file
 - name - Field name (**required**, **unique**)
 - type - Field type. Needed to correctly determine the size of the number (**required**)
     - **string** - string type, needs length 
+    - **int8** - 1 byte integer
     - **int16** - 2 byte integer
     - **int32** - 4 byte integer
     - **int64** - 8 byte integer

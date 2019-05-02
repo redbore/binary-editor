@@ -14,6 +14,7 @@ public class FieldHandlerFactory {
     private final Map<String, FieldHandler> handlers = new HashMap<>();
 
     private void init() {
+        handlers.put("int8", new FieldHandler(this::readInt8, this::writeInt8, Byte.BYTES));
         handlers.put("int16", new FieldHandler(this::readInt16, this::writeInt16, Short.BYTES));
         handlers.put("int32", new FieldHandler(this::readInt32, this::writeInt32, Integer.BYTES));
         handlers.put("int64", new FieldHandler(this::readInt64, this::writeInt64, Long.BYTES));
@@ -32,6 +33,10 @@ public class FieldHandlerFactory {
 
     public Integer length(String type) {
         return handlers.get(type).length();
+    }
+
+    private Object readInt8(byte[] bytes, AtomicInteger offset, Integer length) {
+        return readNumber(bytes, offset, length).get();
     }
 
     private Object readInt16(byte[] bytes, AtomicInteger offset, Integer length) {
@@ -64,6 +69,10 @@ public class FieldHandlerFactory {
         ByteBuffer buffer = ByteBuffer.wrap(bytes, offset.get(), length).order(ByteOrder.LITTLE_ENDIAN);
         offset.addAndGet(length);
         return buffer;
+    }
+
+    private void writeInt8(ByteBuffer buffer, Object value, Integer length) {
+        buffer.order(ByteOrder.LITTLE_ENDIAN).put(toByte(value));
     }
 
     private void writeInt16(ByteBuffer buffer, Object value, Integer length) {
