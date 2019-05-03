@@ -14,8 +14,9 @@
   text-align: center;
 }
 
-.text {
+.input {
   font-size: 18px;
+    min-width: 111px;
 }
 
 .text-label {
@@ -54,4 +55,5 @@
   font-weight: bold;
   text-align: center;
 }
+
 
