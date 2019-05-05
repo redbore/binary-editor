@@ -1,2 +1,0 @@
-binaryFilePath = C://Users//xiaomi//IdeaProjects//binary-editor//server//src//main//resources//example1
-xmlFilePath = C://Users//xiaomi//IdeaProjects//binary-editor//server//src//main//resources//example1.xml

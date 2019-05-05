@@ -1,5 +1,7 @@
 package ru.editor.binaryeditor.core.services.type;
 
+import java.util.stream.IntStream;
+
 public final class TypeConverter {
     public static Byte toByte(Object value) {
         if (value instanceof String) {
@@ -75,4 +77,19 @@ public final class TypeConverter {
         }
         return stringBuilder.toString();
     }
+
+    public static int[] toIntArray(byte[] array) {
+        return IntStream.range(0, array.length)
+                .map(i -> array[i])
+                .toArray();
+    }
+
+    public static byte[] toByteArray(int[] array) {
+        byte[] bytes = new byte[array.length];
+        for (int i = 0; i < array.length; i++) {
+            bytes[i] = (byte) array[i];
+        }
+        return bytes;
+    }
+
 }

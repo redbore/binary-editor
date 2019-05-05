@@ -5,15 +5,15 @@ import org.simpleframework.xml.core.Persister;
 import ru.editor.binaryeditor.core.domain.XmlFile;
 import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
 
-import java.io.File;
+import java.nio.file.Path;
 
 @RequiredArgsConstructor
 public class XmlFileReader {
 
     private final FieldHandlerFactory fieldHandlerFactory;
 
-    public XmlFile read(String path) throws Exception {
-        XmlFile xmlFile = new Persister().read(XmlFile.class, new File(path));
+    public XmlFile read(Path path) throws Exception {
+        XmlFile xmlFile = new Persister().read(XmlFile.class, path.toFile());
         initFieldLength(xmlFile);
         return xmlFile;
     }

@@ -4,13 +4,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.editor.binaryeditor.core.domain.EditorFile;
+import ru.editor.binaryeditor.core.services.CachedFileService;
 import ru.editor.binaryeditor.core.services.Editor;
+import ru.editor.binaryeditor.core.services.type.TypeConverter;
+import ru.editor.binaryeditor.server.controllers.dto.AvailableFiles;
 import ru.editor.binaryeditor.server.controllers.dto.EditorDto;
-import ru.editor.binaryeditor.server.controllers.dto.PathsDto;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.UUID;
 
-import static ru.editor.binaryeditor.server.controllers.Mapper.*;
+import static ru.editor.binaryeditor.server.controllers.Mapper.toEditorDto;
 
 @Log4j2
 @CrossOrigin
@@ -18,54 +23,70 @@ import static ru.editor.binaryeditor.server.controllers.Mapper.*;
 @RequiredArgsConstructor
 public class EditorController {
 
-  private final Editor editor;
+    private final Editor editor;
+    private final CachedFileService cachedFileService;
 
-  @PostMapping("/tables/{tableId}")
-  @ResponseStatus(HttpStatus.OK)
-  public void selectTable(@PathVariable UUID tableId) {
-    editor.selectTable(tableId);
-  }
+    @PostMapping("/tables/{tableId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void selectTable(@PathVariable UUID tableId) {
+        editor.selectTable(tableId);
+    }
 
-  @GetMapping("/file")
-  @ResponseStatus(HttpStatus.OK)
-  public EditorDto getView() {
-    return toEditorDto(editor.binaryFile(), editor.selectedTable());
-  }
+    @GetMapping("/files")
+    @ResponseStatus(HttpStatus.OK)
+    public EditorDto getView() {
+        return toEditorDto(editor.view(), editor.selectedTable());
+    }
 
-  @PostMapping("/file/open")
-  @ResponseStatus(HttpStatus.OK)
-  public void openBinaryFile(@RequestBody PathsDto paths) throws Exception {
-    editor.openFile(toPaths(paths));
-  }
+    @PostMapping("/files/open")
+    @ResponseStatus(HttpStatus.OK)
+    public void openBinaryFile() throws Exception {
+        editor.openBinaryFile();
+    }
 
-  @PostMapping("/file/save")
-  @ResponseStatus(HttpStatus.OK)
-  public void saveBinaryFile(@RequestBody PathsDto paths) throws Exception {
-    editor.saveFile(toPaths(paths));
-  }
+    @GetMapping("/files/save")
+    @ResponseStatus(HttpStatus.OK)
+    public EditorFile saveBinaryFile() throws Exception {
+        return editor.saveBinaryFile();
+    }
 
-  @GetMapping("/paths")
-  @ResponseStatus(HttpStatus.OK)
-  public PathsDto getPaths() {
-    return toPathsDto(editor.paths());
-  }
+    @GetMapping("/files/available")
+    @ResponseStatus(HttpStatus.OK)
+    public AvailableFiles getActualFiles() throws IOException {
+        Path binaryPath = cachedFileService.binaryPath();
+        Path xmlPath = cachedFileService.xmlPath();
+        return AvailableFiles.builder()
+                .binaryName(binaryPath == null ? null : binaryPath.getFileName().toString())
+                .xmlName(xmlPath == null ? null : xmlPath.getFileName().toString())
+                .build();
+    }
 
-  @PostMapping("/tables/{tableId}/rows/{rowId}/fields/{fieldId}")
-  @ResponseStatus(HttpStatus.OK)
-  public void editField(
-          @PathVariable UUID tableId,
-          @PathVariable UUID rowId,
-          @PathVariable UUID fieldId,
-          @RequestBody String value
-  ) {
-    editor.editField(tableId, rowId, fieldId, value);
-  }
+    @PostMapping("/files/binary/update")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateBinaryFile(@RequestBody EditorFile editorFile) throws Exception {
+        cachedFileService.updateBinaryFile(editorFile.getName(), TypeConverter.toByteArray(editorFile.getBody()));
+    }
 
-  @ExceptionHandler(Exception.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public String exception(Exception e) {
-    log.info(e.getMessage());
-    return e.getMessage();
-  }
+    @PostMapping("/files/xml/update")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateXmlFile(@RequestBody EditorFile editorFile) throws Exception {
+        cachedFileService.updateXmlFile(editorFile.getName(), TypeConverter.toByteArray(editorFile.getBody()));
+    }
 
+    @PostMapping("/tables/{tableId}/rows/{rowId}/fields/{fieldId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void editField(
+            @PathVariable UUID tableId,
+            @PathVariable UUID rowId,
+            @PathVariable UUID fieldId,
+            @RequestBody String value
+    ) {
+        editor.editField(tableId, rowId, fieldId, value);
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void exception(Exception e) {
+        log.error(e);
+    }
 }

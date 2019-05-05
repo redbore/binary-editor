@@ -7,21 +7,23 @@ import {TableComponent} from './components/table.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ApiService} from './services/api.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {PathsComponent} from "./components/paths/paths.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TableComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  providers: [ApiService],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        TableComponent,
+        PathsComponent
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    providers: [ApiService],
+    bootstrap: [AppComponent],
 })
 export class AppModule {
 }

@@ -1,15 +1,15 @@
 <segments>
     <segment name="header">
-        <field name="id" type="int"/>
+        <field name="id" type="int32"/>
         <field name="name" length="32" type="string"/>
-        <field name="quest_name_count" type="int"/>
-        <field name="button_count" type="int"/>
+        <field name="quest_name_count" type="int32"/>
+        <field name="button_count" type="int32"/>
     </segment>
     <segment name="segment" count="header.quest_name_count">
         <field name="quest_name" length="32" type="string"/>
     </segment>
     <segment name="button" count="header.button_count">
         <field name="button_text" length="16" type="string"/>
-        <field name="action" type="int"/>
+        <field name="action" type="int32"/>
     </segment>
 </segments>

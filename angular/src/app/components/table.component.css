@@ -1,59 +1,37 @@
 .menu {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 .tables-names {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  margin-right: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin-right: 5px;
 }
 
 .column {
-  text-align: center;
+    text-align: center;
 }
 
 .input {
-  font-size: 18px;
+    font-size: 18px;
     min-width: 111px;
 }
 
 .text-label {
-  font-size: 25px;
-  font-weight: bold
+    font-size: 25px;
+    font-weight: bold
 }
 
 .table-name {
-  margin-bottom: 5px;
-}
-
-.paths {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.paths-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.paths-button {
-  margin: 0 5px 10px 0;
-}
-
-.logout {
-  display: flex;
-  justify-content: flex-end;
-  padding: 1px;
+    margin-bottom: 5px;
 }
 
 .oops {
-  font-size: 100px;
-  font-weight: bold;
-  text-align: center;
+    font-size: 100px;
+    font-weight: bold;
+    text-align: center;
 }
 
 

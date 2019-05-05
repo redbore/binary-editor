@@ -1,0 +1,27 @@
+
+.panel {
+    font-size: 23px;
+    width: 95%;
+    display: flex;
+    justify-content: left;
+}
+
+label {
+    display: contents;
+}
+
+.header {
+    display: flex;
+    padding-top: 5px;
+}
+
+.logout {
+    width: 5%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.panel-element {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}

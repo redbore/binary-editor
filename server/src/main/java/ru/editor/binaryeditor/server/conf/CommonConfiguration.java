@@ -1,15 +1,10 @@
 package ru.editor.binaryeditor.server.conf;
 
-import org.apache.commons.configuration2.FileBasedConfiguration;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
-import org.apache.commons.configuration2.builder.fluent.Parameters;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.editor.binaryeditor.core.services.*;
 import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
-import ru.editor.binaryeditor.server.services.SettingsServiceImpl;
+import ru.editor.binaryeditor.server.services.CachedFileServiceImpl;
 
 @Configuration
 public class CommonConfiguration {
@@ -20,26 +15,8 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public FileBasedConfigurationBuilder fileBasedConfigurationBuilder() {
-        return new FileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class)
-                .configure(new Parameters()
-                        .properties()
-                        .setFileName("settings.txt"));
-    }
-
-    @Bean
-    public FileBasedConfiguration fileBasedConfiguration(
-            FileBasedConfigurationBuilder<FileBasedConfiguration> fileBasedConfigurationBuilder
-    ) throws ConfigurationException {
-        return fileBasedConfigurationBuilder.getConfiguration();
-    }
-
-    @Bean
-    public SettingsService settingsService(
-            FileBasedConfiguration fileBasedConfiguration,
-            FileBasedConfigurationBuilder<FileBasedConfiguration> fileBasedConfigurationBuilder
-    ) {
-        return new SettingsServiceImpl(fileBasedConfiguration, fileBasedConfigurationBuilder);
+    public CachedFileService cashedService() {
+        return new CachedFileServiceImpl();
     }
 
     @Bean
@@ -48,27 +25,31 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public BinaryFileReader binaryFileReader(FieldHandlerFactory fieldHandlerFactory) {
-        return new BinaryFileReader(fieldHandlerFactory);
+    public BinaryFileReader binaryFileReader(
+            FieldHandlerFactory fieldHandlerFactory,
+            XmlFileReader xmlFileReader,
+            CachedFileService cachedFileService
+    ) {
+        return new BinaryFileReader(fieldHandlerFactory, xmlFileReader, cachedFileService);
     }
 
     @Bean
     public BinaryFileWriter binaryFileWriter(
             XmlFileReader xmlFileReader,
-            FieldHandlerFactory fieldHandlerFactory
+            FieldHandlerFactory fieldHandlerFactory,
+            CachedFileService cachedFileService
     ) {
-        return new BinaryFileWriter(xmlFileReader, fieldHandlerFactory);
+        return new BinaryFileWriter(fieldHandlerFactory, xmlFileReader, cachedFileService);
     }
 
-    @Bean
-    public Editor editorOperations(
+    @Bean(initMethod = "init")
+    public Editor editor(
             BinaryFileReader binaryFileReader,
             BinaryFileWriter binaryFileWriter,
-            XmlFileReader xmlFileReader,
-            SettingsService settingsService
+            CachedFileService cachedFileService
     ) {
         return new Editor(
-                binaryFileReader, binaryFileWriter, xmlFileReader, settingsService
+                binaryFileReader, binaryFileWriter, cachedFileService
         );
     }
 }

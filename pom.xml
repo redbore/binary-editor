@@ -68,23 +68,9 @@
       </dependency>
 
       <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-configuration2</artifactId>
-        <version>${commons-configuration2.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <dependency>
         <groupId>org.simpleframework</groupId>
         <artifactId>simple-xml</artifactId>
         <version>${simple-xml.version}</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>commons-beanutils</groupId>
-        <artifactId>commons-beanutils</artifactId>
-        <version>${commons-beanutils.version}</version>
         <scope>compile</scope>
       </dependency>
 

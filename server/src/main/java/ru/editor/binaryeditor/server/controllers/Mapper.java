@@ -2,7 +2,10 @@ package ru.editor.binaryeditor.server.controllers;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import ru.editor.binaryeditor.core.domain.*;
+import ru.editor.binaryeditor.core.domain.BinaryFile;
+import ru.editor.binaryeditor.core.domain.Field;
+import ru.editor.binaryeditor.core.domain.Instance;
+import ru.editor.binaryeditor.core.domain.Type;
 import ru.editor.binaryeditor.server.controllers.dto.*;
 
 import java.util.List;
@@ -21,20 +24,6 @@ public final class Mapper {
             .selectedTable(selectedTable == null
                     ? null
                     : toTableDto(binaryFile.getType(selectedTable).instances(), selectedTable))
-            .build();
-  }
-
-  public static PathsDto toPathsDto(Paths paths) {
-    return PathsDto.builder()
-            .xml(paths.xml())
-            .binary(paths.binary())
-            .build();
-  }
-
-  public static Paths toPaths(PathsDto paths) {
-    return Paths.builder()
-            .xml(paths.getXml())
-            .binary(paths.getBinary())
             .build();
   }
 

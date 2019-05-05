@@ -5,9 +5,10 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class PathsDto {
+public class AvailableFiles {
 
-    private final String binary;
+    private final String xmlName;
 
-    private final String xml;
+    private final String binaryName;
+
 }

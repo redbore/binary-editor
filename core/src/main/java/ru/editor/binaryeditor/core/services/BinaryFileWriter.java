@@ -3,29 +3,39 @@ package ru.editor.binaryeditor.core.services;
 import lombok.RequiredArgsConstructor;
 import ru.editor.binaryeditor.core.domain.*;
 import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
+import ru.editor.binaryeditor.core.services.type.TypeConverter;
 
-import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 @RequiredArgsConstructor
 public class BinaryFileWriter {
 
-    private final XmlFileReader xmlFileReader;
     private final FieldHandlerFactory fieldHandlerFactory;
+    private final XmlFileReader xmlFileReader;
+    private final CachedFileService cachedFileService;
 
     private ByteBuffer buffer;
 
-    public void write(BinaryFile binaryFile, Paths paths) throws Exception {
-        XmlFile xmlFile = xmlFileReader.read(paths.xml());
-        buffer = ByteBuffer.allocate(binaryFile.getSize(xmlFile));
+    public EditorFile write(BinaryFile openedBinaryFile) throws Exception {
+        Path xmlPath = cachedFileService.xmlPath();
+        Path binaryPath = cachedFileService.binaryPath();
 
-        binaryFile.types()
+        XmlFile xmlFile = xmlFileReader.read(xmlPath);
+        buffer = ByteBuffer.allocate(openedBinaryFile.getSize(xmlFile));
+
+        openedBinaryFile.types()
                 .forEach(type -> writeType(type, xmlFile.getXmlSegment(type.name())));
 
-        Files.write(new File(paths.binary()).toPath(), buffer.array());
+        byte[] body = buffer.array();
+        Files.write(binaryPath, body);
 
         buffer = null;
+        return EditorFile.builder()
+                .body(TypeConverter.toIntArray(body))
+                .name(binaryPath.getFileName().toString())
+                .build();
     }
 
     private void writeType(Type type, XmlSegment xmlSegment) {

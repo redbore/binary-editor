@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ApiService} from '../services/api.service';
-import {Editor, Paths} from '../dto/Editor';
+import {Editor} from '../dto/Editor';
 
 @Component({
     selector: 'app-table',
@@ -8,31 +8,17 @@ import {Editor, Paths} from '../dto/Editor';
     styleUrls: ['./table.component.css']
 })
 export class TableComponent {
-    paths: Paths;
-    view: Editor;
-    apiService: ApiService;
-    active: boolean = true;
+    private view: Editor;
+    private apiService: ApiService;
+    private active: boolean = true;
 
     constructor(apiService: ApiService) {
         this.apiService = apiService;
-        this.init();
-        this.getPaths();
+        this.updateView();
     }
 
     public openTable(uuid: string) {
         this.apiService.openTable(uuid).subscribe(() => this.updateView());
-    }
-
-    public getPaths() {
-        this.apiService.getPaths().subscribe(paths => this.paths = paths);
-    }
-
-    public openBinaryFile() {
-        this.apiService.openBinaryFile(this.paths).subscribe(() => this.updateView());
-    }
-
-    public saveBinaryFile() {
-        this.apiService.saveBinaryFile(this.paths).subscribe(() => this.updateView());
     }
 
     public editField(tableId: string, rowId: string, fieldId: string, event: any) {
@@ -43,16 +29,8 @@ export class TableComponent {
         this.apiService.getView().subscribe(view => this.view = view);
     }
 
-    public init() {
-        this.paths = new Paths('', '');
-    }
-
     public logout() {
         this.active = false;
-        this.apiService.suicide().subscribe();
     }
 
-    public isText(value: any) {
-        return isNaN(value);
-    }
 }
