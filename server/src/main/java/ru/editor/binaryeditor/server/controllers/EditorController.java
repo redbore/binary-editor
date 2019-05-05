@@ -8,8 +8,8 @@ import ru.editor.binaryeditor.core.domain.EditorFile;
 import ru.editor.binaryeditor.core.services.CachedFileService;
 import ru.editor.binaryeditor.core.services.Editor;
 import ru.editor.binaryeditor.core.services.type.TypeConverter;
-import ru.editor.binaryeditor.server.controllers.dto.AvailableFiles;
 import ru.editor.binaryeditor.server.controllers.dto.EditorDto;
+import ru.editor.binaryeditor.server.controllers.dto.SelectedFilesDto;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -24,7 +24,7 @@ import static ru.editor.binaryeditor.server.controllers.Mapper.toEditorDto;
 public class EditorController {
 
     private final Editor editor;
-    private final CachedFileService cachedFileService;
+    private final CachedFileService fileService;
 
     @PostMapping("/tables/{tableId}")
     @ResponseStatus(HttpStatus.OK)
@@ -32,45 +32,45 @@ public class EditorController {
         editor.selectTable(tableId);
     }
 
-    @GetMapping("/files")
+    @GetMapping("/files/view")
     @ResponseStatus(HttpStatus.OK)
     public EditorDto getView() {
         return toEditorDto(editor.view(), editor.selectedTable());
     }
 
-    @PostMapping("/files/open")
+    @PostMapping("/files/binary/open")
     @ResponseStatus(HttpStatus.OK)
     public void openBinaryFile() throws Exception {
-        editor.openBinaryFile();
+        editor.openBinary();
     }
 
-    @GetMapping("/files/save")
+    @GetMapping("/files/binary/save")
     @ResponseStatus(HttpStatus.OK)
     public EditorFile saveBinaryFile() throws Exception {
-        return editor.saveBinaryFile();
+        return editor.saveBinary();
     }
 
-    @GetMapping("/files/available")
+    @GetMapping("/files/selected")
     @ResponseStatus(HttpStatus.OK)
-    public AvailableFiles getActualFiles() throws IOException {
-        Path binaryPath = cachedFileService.binaryPath();
-        Path xmlPath = cachedFileService.xmlPath();
-        return AvailableFiles.builder()
+    public SelectedFilesDto selectedFiles() throws IOException {
+        Path binaryPath = fileService.binaryPath();
+        Path specificationPath = fileService.specificationPath();
+        return SelectedFilesDto.builder()
                 .binaryName(binaryPath == null ? null : binaryPath.getFileName().toString())
-                .xmlName(xmlPath == null ? null : xmlPath.getFileName().toString())
+                .xmlName(specificationPath == null ? null : specificationPath.getFileName().toString())
                 .build();
     }
 
-    @PostMapping("/files/binary/update")
+    @PostMapping("/files/binary/select")
     @ResponseStatus(HttpStatus.OK)
     public void updateBinaryFile(@RequestBody EditorFile editorFile) throws Exception {
-        cachedFileService.updateBinaryFile(editorFile.getName(), TypeConverter.toByteArray(editorFile.getBody()));
+        fileService.updateBinary(editorFile.getName(), TypeConverter.toByteArray(editorFile.getBody()));
     }
 
-    @PostMapping("/files/xml/update")
+    @PostMapping("/files/specification/select")
     @ResponseStatus(HttpStatus.OK)
-    public void updateXmlFile(@RequestBody EditorFile editorFile) throws Exception {
-        cachedFileService.updateXmlFile(editorFile.getName(), TypeConverter.toByteArray(editorFile.getBody()));
+    public void updateSpecification(@RequestBody EditorFile editorFile) throws Exception {
+        fileService.updateSpecification(editorFile.getName(), TypeConverter.toByteArray(editorFile.getBody()));
     }
 
     @PostMapping("/tables/{tableId}/rows/{rowId}/fields/{fieldId}")

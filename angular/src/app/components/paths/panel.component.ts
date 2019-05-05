@@ -5,11 +5,11 @@ import {TableComponent} from "../table.component";
 import * as FileSaver from "file-saver";
 
 @Component({
-    selector: 'app-paths',
-    templateUrl: './paths.component.html',
-    styleUrls: ['./paths.component.css']
+    selector: 'app-panel',
+    templateUrl: './panel.component.html',
+    styleUrls: ['./panel.component.css']
 })
-export class PathsComponent {
+export class PanelComponent {
 
     private availableFiles: AvailableFiles;
     private apiService: ApiService;

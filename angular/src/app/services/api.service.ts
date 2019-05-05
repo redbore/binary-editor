@@ -17,19 +17,19 @@ export class ApiService {
     }
 
     public getView(): Observable<Editor> {
-        return this.get(`/files`);
+        return this.get(`/files/view`);
     }
 
     public openBinaryFile(): Observable<any> {
-        return this.post(`/files/open`);
+        return this.post(`/files/binary/open`);
     }
 
     public saveBinaryFile(): Observable<EditorFile> {
-        return this.get<EditorFile>(`/files/save`);
+        return this.get<EditorFile>(`/files/binary/save`);
     }
 
     public getAvailableFiles(): Observable<AvailableFiles> {
-        return this.get(`/files/available`);
+        return this.get(`/files/selected`);
     }
 
     public editField(tableId: string, rowId: string, fieldId: string, value: any): Observable<any> {
@@ -41,11 +41,11 @@ export class ApiService {
     }
 
     public updateXml(editorFile: EditorFile): Observable<any> {
-        return this.post(`/files/xml/update`, editorFile);
+        return this.post(`/files/specification/select`, editorFile);
     }
 
     public updateBinary(editorFile: EditorFile): Observable<any> {
-        return this.post(`/files/binary/update`, editorFile);
+        return this.post(`/files/binary/select`, editorFile);
     }
 
     private get<T>(path: string): Observable<T> {

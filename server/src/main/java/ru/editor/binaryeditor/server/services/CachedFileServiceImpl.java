@@ -10,14 +10,14 @@ import java.util.Optional;
 
 public class CachedFileServiceImpl implements CachedFileService {
 
-    private static final String xml = "xml";
+    private static final String specification = "specification";
     private static final String binary = "binary";
-    private static final String xmlPath = "cache\\" + xml;
+    private static final String specificationPath = "cache\\" + specification;
     private static final String binaryPath = "cache\\" + binary;
 
     @Override
-    public Path updateBinaryFile(String name, byte[] body) throws IOException {
-        deleteBinary();
+    public Path updateBinary(String name, byte[] body) throws IOException {
+        deleteBinaryFiles();
         Path filePath = new File(binaryPath + "/" + name).toPath();
         Files.createFile(filePath);
         Files.write(filePath, body);
@@ -25,46 +25,61 @@ public class CachedFileServiceImpl implements CachedFileService {
     }
 
     @Override
-    public Path updateXmlFile(String name, byte[] body) throws IOException {
-        deleteXml();
-        Path filePath = new File(xmlPath + "/" + name).toPath();
+    public Path updateBinary(byte[] body) throws IOException {
+        Path filePath = findBinaryPath().orElseThrow(() -> new RuntimeException("Binary file not found in cache"));
+        deleteBinaryFiles();
         Files.createFile(filePath);
         Files.write(filePath, body);
         return filePath;
     }
 
     @Override
-    public Path binaryPath() throws IOException {
-        return findBinary().orElse(null);
+    public Path updateSpecification(String name, byte[] body) throws IOException {
+        deleteSpecificationFiles();
+        Path filePath = new File(specificationPath + "/" + name).toPath();
+        Files.createFile(filePath);
+        Files.write(filePath, body);
+        return filePath;
     }
 
     @Override
-    public Path xmlPath() throws IOException {
-        return findXml().orElse(null);
+    public byte[] getBinaryFile() throws IOException {
+        Path filePath = findBinaryPath().orElseThrow(() -> new RuntimeException("Binary file not found in cache"));
+        return Files.readAllBytes(filePath);
     }
 
-    private void deleteXml() throws IOException {
+    @Override
+    public Path binaryPath() throws IOException {
+        return findBinaryPath().orElse(null);
+    }
+
+    @Override
+    public Path specificationPath() throws IOException {
+        return findSpecificationPath().orElse(null);
+    }
+
+    private void deleteSpecificationFiles() throws IOException {
         Files
-                .walk(new File(xmlPath).toPath())
-                .filter(p -> !p.getFileName().toString().equals(xml))
+                .walk(new File(specificationPath).toPath())
+                .filter(p -> !p.getFileName().toString().equals(specification))
                 .forEach(this::deleteIfExists);
     }
 
-    private void deleteBinary() throws IOException {
+    private void deleteBinaryFiles() throws IOException {
         Files
                 .walk(new File(binaryPath).toPath())
                 .filter(p -> !p.getFileName().toString().equals(binary))
                 .forEach(this::deleteIfExists);
     }
 
-    private Optional<Path> findXml() throws IOException {
+    private Optional<Path> findSpecificationPath() throws IOException {
         return Files
-                .walk(new File(xmlPath).toPath())
-                .filter(p -> !p.getFileName().toString().equals(xml))
+                .walk(new File(specificationPath).toPath())
+                .filter(p -> !p.getFileName().toString().equals(specification))
                 .findFirst();
     }
 
-    private Optional<Path> findBinary() throws IOException {
+    private Optional<Path> findBinaryPath() throws IOException {
         return Files
                 .walk(new File(binaryPath).toPath())
                 .filter(p -> !p.getFileName().toString().equals(binary))

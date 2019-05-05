@@ -15,41 +15,41 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public CachedFileService cashedService() {
+    public CachedFileService cachedFileService() {
         return new CachedFileServiceImpl();
     }
 
     @Bean
-    public XmlFileReader xmlFileReader(FieldHandlerFactory fieldHandlerFactory) {
-        return new XmlFileReader(fieldHandlerFactory);
+    public SpecificationReader specificationReader(
+            FieldHandlerFactory fieldHandlerFactory, CachedFileService cachedFileService
+    ) {
+        return new SpecificationReader(fieldHandlerFactory, cachedFileService);
     }
 
     @Bean
-    public BinaryFileReader binaryFileReader(
+    public BinaryReader binaryReader(
             FieldHandlerFactory fieldHandlerFactory,
-            XmlFileReader xmlFileReader,
+            SpecificationReader specificationReader,
             CachedFileService cachedFileService
     ) {
-        return new BinaryFileReader(fieldHandlerFactory, xmlFileReader, cachedFileService);
+        return new BinaryReader(fieldHandlerFactory, specificationReader, cachedFileService);
     }
 
     @Bean
-    public BinaryFileWriter binaryFileWriter(
-            XmlFileReader xmlFileReader,
+    public BinaryWriter binaryWriter(
+            SpecificationReader specificationReader,
             FieldHandlerFactory fieldHandlerFactory,
             CachedFileService cachedFileService
     ) {
-        return new BinaryFileWriter(fieldHandlerFactory, xmlFileReader, cachedFileService);
+        return new BinaryWriter(fieldHandlerFactory, specificationReader, cachedFileService);
     }
 
     @Bean(initMethod = "init")
     public Editor editor(
-            BinaryFileReader binaryFileReader,
-            BinaryFileWriter binaryFileWriter,
+            BinaryReader binaryReader,
+            BinaryWriter binaryWriter,
             CachedFileService cachedFileService
     ) {
-        return new Editor(
-                binaryFileReader, binaryFileWriter, cachedFileService
-        );
+        return new Editor(binaryReader, binaryWriter, cachedFileService);
     }
 }

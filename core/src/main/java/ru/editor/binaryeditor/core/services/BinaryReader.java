@@ -5,8 +5,6 @@ import ru.editor.binaryeditor.core.domain.*;
 import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
 import ru.editor.binaryeditor.core.services.type.FieldReader;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,11 +16,11 @@ import java.util.stream.IntStream;
 import static ru.editor.binaryeditor.core.domain.Field.field;
 
 @RequiredArgsConstructor
-public class BinaryFileReader {
+public class BinaryReader {
 
     private final FieldHandlerFactory fieldHandlerFactory;
-    private final XmlFileReader xmlFileReader;
-    private final CachedFileService cachedFileService;
+    private final SpecificationReader specificationReader;
+    private final CachedFileService fileService;
 
     private byte[] bytes;
     private AtomicInteger offset;
@@ -31,25 +29,23 @@ public class BinaryFileReader {
      */
     private List<Type> tempTypes;
 
-    public BinaryFile read() throws Exception {
-        Path binaryPath = cachedFileService.binaryPath();
-        Path xmlPath = cachedFileService.xmlPath();
-        XmlFile xmlFile = xmlFileReader.read(xmlPath);
+    public OpenedBinary read() throws Exception {
+        Specification specification = specificationReader.read();
 
-        bytes = Files.readAllBytes(binaryPath);
+        bytes = fileService.getBinaryFile();
         offset = new AtomicInteger();
         tempTypes = new ArrayList<>();
 
-        BinaryFile binaryFile = BinaryFile.builder()
+        OpenedBinary openedBinary = OpenedBinary.builder()
                 .uuid(UUID.randomUUID())
-                .types(readTypes(xmlFile.xmlSegments()))
+                .types(readTypes(specification.xmlSegments()))
                 .build();
 
         bytes = null;
         offset = null;
         tempTypes = null;
 
-        return binaryFile;
+        return openedBinary;
     }
 
     private List<Type> readTypes(List<XmlSegment> xmlSegments) {

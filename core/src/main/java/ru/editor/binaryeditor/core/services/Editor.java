@@ -1,9 +1,9 @@
 package ru.editor.binaryeditor.core.services;
 
 import lombok.RequiredArgsConstructor;
-import ru.editor.binaryeditor.core.domain.BinaryFile;
 import ru.editor.binaryeditor.core.domain.EditorFile;
 import ru.editor.binaryeditor.core.domain.Field;
+import ru.editor.binaryeditor.core.domain.OpenedBinary;
 
 import java.nio.file.Path;
 import java.util.UUID;
@@ -11,44 +11,44 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Editor {
 
-    private final BinaryFileReader binaryFileReader;
-    private final BinaryFileWriter binaryFileWriter;
-    private final CachedFileService cachedFileService;
+    private final BinaryReader binaryReader;
+    private final BinaryWriter binaryWriter;
+    private final CachedFileService fileService;
 
     private UUID selectedTable;
-    private BinaryFile openedBinaryFile;
+    private OpenedBinary openedBinary;
 
     private void init() throws Exception {
-        openBinaryFile();
+        openBinary();
     }
 
     public void selectTable(UUID tableId) {
         selectedTable = tableId;
     }
 
-    public void openBinaryFile() throws Exception {
-        Path binary = cachedFileService.binaryPath();
-        Path xml = cachedFileService.xmlPath();
-        if (binary != null && xml != null) {
-            openedBinaryFile = binaryFileReader.read();
+    public void openBinary() throws Exception {
+        Path binary = fileService.binaryPath();
+        Path specification = fileService.specificationPath();
+        if (binary != null && specification != null) {
+            openedBinary = binaryReader.read();
             selectedTable = null;
         }
     }
 
-    public EditorFile saveBinaryFile() throws Exception {
-        return binaryFileWriter.write(openedBinaryFile);
+    public EditorFile saveBinary() throws Exception {
+        return binaryWriter.write(openedBinary);
     }
 
     public void editField(UUID typeId, UUID instanceId, UUID fieldId, Object value) {
-        Field field = openedBinaryFile
+        Field field = openedBinary
                 .getType(typeId)
                 .getInstance(instanceId)
                 .getField(fieldId);
         field.value(value);
     }
 
-    public BinaryFile view() {
-        return openedBinaryFile;
+    public OpenedBinary view() {
+        return openedBinary;
     }
 
     public UUID selectedTable() {

@@ -7,13 +7,13 @@ import {TableComponent} from './components/table.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ApiService} from './services/api.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {PathsComponent} from "./components/paths/paths.component";
+import {PanelComponent} from "./components/paths/panel.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         TableComponent,
-        PathsComponent
+        PanelComponent
     ],
     imports: [
         BrowserModule,

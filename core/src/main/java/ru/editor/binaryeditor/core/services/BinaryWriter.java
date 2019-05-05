@@ -6,30 +6,27 @@ import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
 import ru.editor.binaryeditor.core.services.type.TypeConverter;
 
 import java.nio.ByteBuffer;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 @RequiredArgsConstructor
-public class BinaryFileWriter {
+public class BinaryWriter {
 
     private final FieldHandlerFactory fieldHandlerFactory;
-    private final XmlFileReader xmlFileReader;
-    private final CachedFileService cachedFileService;
+    private final SpecificationReader specificationReader;
+    private final CachedFileService fileService;
 
     private ByteBuffer buffer;
 
-    public EditorFile write(BinaryFile openedBinaryFile) throws Exception {
-        Path xmlPath = cachedFileService.xmlPath();
-        Path binaryPath = cachedFileService.binaryPath();
+    public EditorFile write(OpenedBinary openedOpenedBinary) throws Exception {
+        Specification specification = specificationReader.read();
 
-        XmlFile xmlFile = xmlFileReader.read(xmlPath);
-        buffer = ByteBuffer.allocate(openedBinaryFile.getSize(xmlFile));
+        buffer = ByteBuffer.allocate(openedOpenedBinary.getSize(specification));
 
-        openedBinaryFile.types()
-                .forEach(type -> writeType(type, xmlFile.getXmlSegment(type.name())));
+        openedOpenedBinary.types()
+                .forEach(type -> writeType(type, specification.getXmlSegment(type.name())));
 
         byte[] body = buffer.array();
-        Files.write(binaryPath, body);
+        Path binaryPath = fileService.updateBinary(body);
 
         buffer = null;
         return EditorFile.builder()

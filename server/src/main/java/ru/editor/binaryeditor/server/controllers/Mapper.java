@@ -2,9 +2,9 @@ package ru.editor.binaryeditor.server.controllers;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import ru.editor.binaryeditor.core.domain.BinaryFile;
 import ru.editor.binaryeditor.core.domain.Field;
 import ru.editor.binaryeditor.core.domain.Instance;
+import ru.editor.binaryeditor.core.domain.OpenedBinary;
 import ru.editor.binaryeditor.core.domain.Type;
 import ru.editor.binaryeditor.server.controllers.dto.*;
 
@@ -15,15 +15,15 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Mapper {
 
-  public static EditorDto toEditorDto(BinaryFile binaryFile, UUID selectedTable) {
-    if (binaryFile == null) {
+  public static EditorDto toEditorDto(OpenedBinary openedBinary, UUID selectedTable) {
+    if (openedBinary == null) {
       throw new RuntimeException("Binary file not found");
     }
     return EditorDto.builder()
-            .tablesNames(toTablesNames(binaryFile.types()))
+            .tablesNames(toTablesNames(openedBinary.types()))
             .selectedTable(selectedTable == null
                     ? null
-                    : toTableDto(binaryFile.getType(selectedTable).instances(), selectedTable))
+                    : toTableDto(openedBinary.getType(selectedTable).instances(), selectedTable))
             .build();
   }
 

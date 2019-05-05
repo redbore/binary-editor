@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @Accessors(fluent = true)
-public class BinaryFile {
+public class OpenedBinary {
 
     @NonNull
     private final UUID uuid;
@@ -20,8 +20,8 @@ public class BinaryFile {
     @NonNull
     private final List<Type> types;
 
-    public Integer getSize(XmlFile xmlFile) {
-        return xmlFile.xmlSegments().stream()
+    public Integer getSize(Specification specification) {
+        return specification.xmlSegments().stream()
                 .map(xmlSegment -> xmlSegment.xmlFields().stream()
                         .mapToInt(xmlField -> xmlField.length() * getInstanceSize(xmlSegment.name()))
                         .reduce((a, b) -> a + b))

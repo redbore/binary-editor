@@ -5,13 +5,17 @@ import java.nio.file.Path;
 
 public interface CachedFileService {
 
-    Path updateBinaryFile(String name, byte[] body) throws IOException;
+    Path updateBinary(String name, byte[] body) throws IOException;
 
-    Path updateXmlFile(String name, byte[] body) throws IOException;
+    Path updateBinary(byte[] body) throws IOException;
+
+    Path updateSpecification(String name, byte[] body) throws IOException;
+
+    byte[] getBinaryFile() throws IOException;
 
     Path binaryPath() throws IOException;
 
-    Path xmlPath() throws IOException;
+    Path specificationPath() throws IOException;
 
 }
 

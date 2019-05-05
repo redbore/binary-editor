@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class AvailableFiles {
+public class SelectedFilesDto {
 
     private final String xmlName;
 

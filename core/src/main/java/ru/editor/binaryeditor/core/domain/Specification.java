@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Accessors(fluent = true)
 @Root(name = "segments")
-public class XmlFile {
+public class Specification {
 
     @ElementList(inline = true, name = "segment")
     private List<XmlSegment> xmlSegments;
