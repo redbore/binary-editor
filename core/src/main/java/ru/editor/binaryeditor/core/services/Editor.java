@@ -30,7 +30,11 @@ public class Editor {
         Path binary = fileService.binaryPath();
         Path specification = fileService.specificationPath();
         if (binary != null && specification != null) {
-            openedBinary = binaryReader.read();
+            try {
+                openedBinary = binaryReader.read();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             selectedTable = null;
         }
     }
