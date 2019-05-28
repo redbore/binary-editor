@@ -12,15 +12,13 @@ import java.nio.file.Path;
 public class BinaryWriter {
 
     private final FieldHandlerFactory fieldHandlerFactory;
-    private final SpecificationReader specificationReader;
     private final CachedFileService fileService;
 
     private ByteBuffer buffer;
 
-    public EditorFile write(OpenedBinary openedOpenedBinary) throws Exception {
-        Specification specification = specificationReader.read();
+    public EditorFile write(OpenedBinary openedOpenedBinary, Specification specification) throws Exception {
 
-        buffer = ByteBuffer.allocate(openedOpenedBinary.getSize(specification));
+        buffer = ByteBuffer.allocate(openedOpenedBinary.size(specification));
 
         openedOpenedBinary.types()
                 .forEach(type -> writeType(type, specification.getXmlSegment(type.name())));
@@ -42,7 +40,7 @@ public class BinaryWriter {
 
     private void writeInstance(Instance instance, XmlSegment xmlSegment) {
         instance.fields()
-                .forEach(field -> writeField(field, xmlSegment.getXmlField(field.name())));
+                .forEach(field -> writeField(field, xmlSegment.xmlField(field.name())));
     }
 
     private void writeField(Field field, XmlField xmlField) {

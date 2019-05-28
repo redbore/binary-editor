@@ -22,12 +22,4 @@ public class Field {
 
     @NonNull
     private Object value;
-
-    public static Field field(String name, Object value) {
-        return builder()
-                .uuid(UUID.randomUUID())
-                .name(name)
-                .value(value)
-                .build();
-    }
 }

@@ -20,36 +20,33 @@ public class CommonConfiguration {
     }
 
     @Bean
-    public SpecificationReader specificationReader(
-            FieldHandlerFactory fieldHandlerFactory, CachedFileService cachedFileService
-    ) {
-        return new SpecificationReader(fieldHandlerFactory, cachedFileService);
+    public SpecificationReader specificationReader(CachedFileService cachedFileService) {
+        return new SpecificationReader(cachedFileService);
     }
 
     @Bean
     public BinaryReader binaryReader(
             FieldHandlerFactory fieldHandlerFactory,
-            SpecificationReader specificationReader,
             CachedFileService cachedFileService
     ) {
-        return new BinaryReader(fieldHandlerFactory, specificationReader, cachedFileService);
+        return new BinaryReader(fieldHandlerFactory, cachedFileService);
     }
 
     @Bean
     public BinaryWriter binaryWriter(
-            SpecificationReader specificationReader,
             FieldHandlerFactory fieldHandlerFactory,
             CachedFileService cachedFileService
     ) {
-        return new BinaryWriter(fieldHandlerFactory, specificationReader, cachedFileService);
+        return new BinaryWriter(fieldHandlerFactory, cachedFileService);
     }
 
     @Bean(initMethod = "init")
     public Editor editor(
             BinaryReader binaryReader,
             BinaryWriter binaryWriter,
+            SpecificationReader specificationReader,
             CachedFileService cachedFileService
     ) {
-        return new Editor(binaryReader, binaryWriter, cachedFileService);
+        return new Editor(binaryReader, binaryWriter, cachedFileService, specificationReader);
     }
 }

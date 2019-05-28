@@ -23,7 +23,7 @@ public final class Mapper {
             .tablesNames(toTablesNames(openedBinary.types()))
             .selectedTable(selectedTable == null
                     ? null
-                    : toTableDto(openedBinary.getType(selectedTable).instances(), selectedTable))
+                    : toTableDto(openedBinary.type(selectedTable).instances(), selectedTable))
             .build();
   }
 

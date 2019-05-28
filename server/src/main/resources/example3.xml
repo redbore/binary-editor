@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<segments>
+
+    <segment name="header">
+        <field name="count" type="int32"/>
+    </segment>
+
+    <segment name="texts" count="header.count">
+        <field name="len" type="int32"/>
+        <field name="text" length="texts.len" type="string"/>
+    </segment>
+
+</segments>
+

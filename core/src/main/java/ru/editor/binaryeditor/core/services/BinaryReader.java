@@ -6,114 +6,87 @@ import ru.editor.binaryeditor.core.services.type.FieldHandlerFactory;
 import ru.editor.binaryeditor.core.services.type.FieldReader;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static ru.editor.binaryeditor.core.domain.Field.field;
 
 @RequiredArgsConstructor
 public class BinaryReader {
 
     private final FieldHandlerFactory fieldHandlerFactory;
-    private final SpecificationReader specificationReader;
     private final CachedFileService fileService;
 
     private byte[] bytes;
     private AtomicInteger offset;
+
+    private OpenedBinary openedBinary;
+
     /**
      * Field necessary to obtain Instance count
      */
-    private List<Type> tempTypes;
-
-    public OpenedBinary read() throws Exception {
-        Specification specification = specificationReader.read();
+    public OpenedBinary read(Specification specification) throws Exception {
 
         bytes = fileService.getBinaryFile();
         offset = new AtomicInteger();
-        tempTypes = new ArrayList<>();
 
         OpenedBinary openedBinary = OpenedBinary.builder()
+                .types(new ArrayList<>())
                 .uuid(UUID.randomUUID())
-                .types(readTypes(specification.xmlSegments()))
                 .build();
 
+        this.openedBinary = openedBinary;
+
+        specification.xmlSegments()
+                .forEach(xmlSegment -> readType(xmlSegment, openedBinary.types()));
+
+        this.openedBinary = null;
         bytes = null;
         offset = null;
-        tempTypes = null;
 
         return openedBinary;
     }
 
-    private List<Type> readTypes(List<XmlSegment> xmlSegments) {
-        return xmlSegments.stream()
-                .map(this::readType)
-                .collect(Collectors.toList());
-    }
+    private void readType(XmlSegment xmlSegment, List<Type> types) {
+        ArrayList<Instance> instances = new ArrayList<>();
 
-    private Type readType(XmlSegment xmlSegment) {
-        Type type = xmlSegment.count() == null || xmlSegment.count().equals("")
-                ? Type.builder()
+        Type type = Type.builder()
                 .uuid(UUID.randomUUID())
                 .name(xmlSegment.name())
-                .instances(Collections.singletonList(readInstance(xmlSegment)))
-                .build()
-
-                : Type.builder()
-                .uuid(UUID.randomUUID())
-                .name(xmlSegment.name())
-                .instances(readInstances(xmlSegment))
+                .instances(instances)
                 .build();
-        tempTypes.add(type);
-        return type;
-    }
+        types.add(type);
 
-    private Instance readInstance(XmlSegment xmlSegment) {
-        return Instance.builder()
-                .uuid(UUID.randomUUID())
-                .fields(readFields(xmlSegment.xmlFields()))
-                .build();
-    }
+        Integer count = xmlSegment.count(openedBinary);
 
-    private List<Instance> readInstances(XmlSegment xmlSegment) {
-        Integer count = getInstanceCount(tempTypes, xmlSegment.count());
-        return IntStream.range(0, count)
-                .mapToObj(i -> readInstance(xmlSegment))
-                .collect(Collectors.toList());
-    }
-
-    private List<Field> readFields(List<XmlField> xmlFields) {
-        return xmlFields.stream()
-                .map(this::readField)
-                .collect(Collectors.toList());
-    }
-
-    private Field readField(XmlField xmlField) {
-        FieldReader reader = fieldHandlerFactory.reader(xmlField.type());
-        Object value = reader.read(bytes, offset, xmlField.length());
-        return field(xmlField.name(), value);
-    }
-
-    private static Integer getInstanceCount(List<Type> tempTypes, String count) {
-        if (tempTypes.isEmpty()) {
-            throw new RuntimeException();
+        for (int i = 0; i < count; i++) {
+            readInstance(xmlSegment, instances);
         }
-        String[] names = count.split("[.]");
-        return tempTypes
-                .stream()
-                .filter(tempType -> tempType.name().equals(names[0]))
-                .findFirst()
-                .map(Type::instances)
-                .flatMap(instances -> instances
-                        .stream()
-                        .findFirst()
-                        .flatMap(instance -> instance.fields()
-                                .stream()
-                                .filter(field -> field.name().equals(names[1]))
-                                .findFirst()
-                                .map(field -> (Integer) field.value()))).get();
+    }
+
+    private void readInstance(XmlSegment xmlSegment, List<Instance> instances) {
+        ArrayList<Field> fields = new ArrayList<>();
+
+        Instance instance = Instance.builder()
+                .uuid(UUID.randomUUID())
+                .fields(fields)
+                .build();
+        instances.add(instance);
+
+        xmlSegment.xmlFields()
+                .forEach(xmlField -> readField(xmlField, fields));
+    }
+
+    private void readField(XmlField xmlField, List<Field> fields) {
+        Field field = Field.builder()
+                .uuid(UUID.randomUUID())
+                .name(xmlField.name())
+                .value(readValue(xmlField))
+                .build();
+        fields.add(field);
+    }
+
+    private Object readValue(XmlField xmlField) {
+        FieldReader reader = fieldHandlerFactory.reader(xmlField.type());
+        return reader.read(bytes, offset, xmlField.length(openedBinary, fieldHandlerFactory));
     }
 }

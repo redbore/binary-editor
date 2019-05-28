@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ru.editor.binaryeditor.core.domain.EditorFile;
 import ru.editor.binaryeditor.core.domain.Field;
 import ru.editor.binaryeditor.core.domain.OpenedBinary;
+import ru.editor.binaryeditor.core.domain.Specification;
 
 import java.nio.file.Path;
 import java.util.UUID;
@@ -14,9 +15,11 @@ public class Editor {
     private final BinaryReader binaryReader;
     private final BinaryWriter binaryWriter;
     private final CachedFileService fileService;
+    private final SpecificationReader specificationReader;
 
     private UUID selectedTable;
     private OpenedBinary openedBinary;
+    private Specification specification;
 
     private void init() throws Exception {
         openBinary();
@@ -27,11 +30,12 @@ public class Editor {
     }
 
     public void openBinary() throws Exception {
-        Path binary = fileService.binaryPath();
-        Path specification = fileService.specificationPath();
-        if (binary != null && specification != null) {
+        Path binaryPath = fileService.binaryPath();
+        Path specificationPath = fileService.specificationPath();
+        if (binaryPath != null && specificationPath != null) {
             try {
-                openedBinary = binaryReader.read();
+                specification = specificationReader.read();
+                openedBinary = binaryReader.read(specification);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -40,12 +44,12 @@ public class Editor {
     }
 
     public EditorFile saveBinary() throws Exception {
-        return binaryWriter.write(openedBinary);
+        return binaryWriter.write(openedBinary, specification);
     }
 
     public void editField(UUID typeId, UUID instanceId, UUID fieldId, Object value) {
         Field field = openedBinary
-                .getType(typeId)
+                .type(typeId)
                 .getInstance(instanceId)
                 .getField(fieldId);
         field.value(value);
