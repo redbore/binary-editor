@@ -25,7 +25,7 @@ Description of the groups of types, we need to separate the fields in the sense.
 ```
 `attributes:`
 - name - Segment name (**required**, **unique**)
-- count - Number of repetitions of the next segment
+- count(may be a link) - Number of repetitions of the next segment 
 
 ### `<field>`
 ```
@@ -41,4 +41,4 @@ Description of a specific type in a binary file
     - **int64** - 8 byte integer
     - **float32** - 4 byte real number
     - **float64** - 8 byte real number
-- length - Length of string type
+- length(may be a link) - Length of string type
