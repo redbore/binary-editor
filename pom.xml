@@ -28,11 +28,6 @@
   <dependencyManagement>
     <dependencies>
 
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>${log4j-core.version}</version>
-      </dependency>
 
       <dependency>
         <groupId>ru.editor</groupId>
@@ -44,6 +39,18 @@
         <groupId>ru.editor</groupId>
         <artifactId>core</artifactId>
         <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>ru.editor</groupId>
+        <artifactId>angular</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>${log4j-core.version}</version>
       </dependency>
 
       <dependency>
