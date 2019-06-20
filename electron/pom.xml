@@ -25,9 +25,6 @@
                     <filesets>
                         <fileset>
                             <directory>electron-win32-x64</directory>
-                            <includes>
-                                <include>*</include>
-                            </includes>
                         </fileset>
                     </filesets>
                 </configuration>

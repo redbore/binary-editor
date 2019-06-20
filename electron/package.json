@@ -1,5 +1,5 @@
 {
-  "name": "electron",
+  "name": "Binary-editor",
   "version": "1.0.0",
   "description": "Electron-binary-editor",
   "main": "main.js",
