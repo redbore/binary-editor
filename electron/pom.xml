@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>angular</artifactId>
+    <artifactId>electron</artifactId>
 
     <dependencies>
     </dependencies>
@@ -24,7 +24,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>dist</directory>
+                            <directory>electron-win32-x64</directory>
                             <includes>
                                 <include>*</include>
                             </includes>
@@ -55,19 +55,19 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-
                         <phase>generate-resources</phase>
-
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
                     </execution>
 
                     <execution>
-                        <id>npm run build</id>
+                        <id>electron-packager</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
+                        <phase>generate-resources</phase>
+
                         <configuration>
                             <arguments>run build</arguments>
                         </configuration>

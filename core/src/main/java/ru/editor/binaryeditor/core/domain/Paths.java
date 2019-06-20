@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 public class Paths {
 
-  private String binary;
+    private String binary;
 
-  private String xml;
+    private String xml;
 }

@@ -28,3 +28,10 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+node_modules
+dist
+node
+target
+electron-win32-x64
+
