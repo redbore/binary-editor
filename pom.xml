@@ -13,7 +13,6 @@
         <module>server</module>
         <module>core</module>
         <module>angular</module>
-        <module>electron</module>
     </modules>
 
     <properties>
