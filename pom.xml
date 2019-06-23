@@ -25,12 +25,11 @@
         <commons-configuration2.version>2.4</commons-configuration2.version>
         <log4j-core.version>2.11.2</log4j-core.version>
         <h2.version>1.4.199</h2.version>
-        <spring-boot-starter-jdbc.version>2.1.6.RELEASE</spring-boot-starter-jdbc.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
+            <!--modules-->
             <dependency>
                 <groupId>ru.editor</groupId>
                 <artifactId>server</artifactId>
@@ -55,10 +54,11 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!--spring-->
             <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
-                <version>${log4j-core.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
 
             <dependency>
@@ -69,10 +69,11 @@
                 <scope>import</scope>
             </dependency>
 
+            <!--other-->
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-                <version>${spring-boot.version}</version>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j-core.version}</version>
             </dependency>
 
             <dependency>
@@ -94,12 +95,6 @@
                 <artifactId>h2</artifactId>
                 <version>${h2.version}</version>
                 <scope>runtime</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-jdbc</artifactId>
-                <version>${spring-boot-starter-jdbc.version}</version>
             </dependency>
 
         </dependencies>
