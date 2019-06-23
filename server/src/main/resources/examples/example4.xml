@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<segments>
+
+    <segment name="header">
+        <field name="version" length="5" type="string"/>
+        <field name="unk0" type="int32"/>
+        <field name="segmentCount" type="int32"/>
+        <field name="unk1" type="int32"/>
+        <field name="format" length="4" type="string"/>
+        <field name="unk2" type="int32"/>
+    </segment>
+
+    <segment name="skillTooltipSegment" count="header.segmentCount">
+        <field name="Id" type="int32"/>
+        <field name="SkillName" length="32" type="string"/>
+        <field name="Icon" length="64" type="string"/>
+        <field name="Tooltip_0" length="201" type="string"/>
+        <field name="Tooltip_1" length="203" type="string"/>
+    </segment>
+
+</segments>
+
