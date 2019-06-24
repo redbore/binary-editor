@@ -14,17 +14,24 @@
         <module>core</module>
         <module>angular</module>
         <module>persistence</module>
+        <module>api</module>
     </modules>
 
     <properties>
         <java.version>8</java.version>
-        <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
-        <lombok.version>1.18.6</lombok.version>
+
+        <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
+        <spring-core.version>5.1.8.RELEASE</spring-core.version>
+
+        <lombok.version>1.18.8</lombok.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <simple-xml.version>2.7.1</simple-xml.version>
         <commons-configuration2.version>2.4</commons-configuration2.version>
         <log4j-core.version>2.11.2</log4j-core.version>
         <h2.version>1.4.199</h2.version>
+        <testng.version>6.14.3</testng.version>
+        <assertj-core.version>3.12.2</assertj-core.version>
+        <guava.version>28.0-jre</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -54,6 +61,20 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>ru.editor</groupId>
+                <artifactId>api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--test modules-->
+            <dependency>
+                <groupId>ru.editor</groupId>
+                <artifactId>api</artifactId>
+                <version>${project.version}</version>
+                <classifier>tests</classifier>
+            </dependency>
+
             <!--spring-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -67,6 +88,12 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring-core.version}</version>
             </dependency>
 
             <!--other-->
@@ -97,6 +124,24 @@
                 <scope>runtime</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testng.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

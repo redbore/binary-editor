@@ -1,24 +1,20 @@
 package ru.editor.binaryeditor.core.domain;
 
-import lombok.Getter;
+import lombok.*;
 import lombok.experimental.Accessors;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
 
-import java.util.List;
+import java.util.UUID;
 
 @Getter
+@Builder
+@ToString
 @Accessors(fluent = true)
-@Root(name = "segments")
+@EqualsAndHashCode
 public class Specification {
+    @Setter
+    private UUID id;
 
-    @ElementList(inline = true, name = "segment")
-    private List<XmlSegment> xmlSegments;
+    private String name;
 
-    public XmlSegment getXmlSegment(String xmlSegmentName) {
-        return xmlSegments.stream()
-                .filter(xmlSegments -> xmlSegments.name().equals(xmlSegmentName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Xml segment not found: name=" + xmlSegmentName));
-    }
+    private byte[] body;
 }

@@ -2,20 +2,18 @@ package ru.editor.binaryeditor.server.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.editor.binaryeditor.core.domain.EditorFile;
-import ru.editor.binaryeditor.core.services.CachedFileService;
+import rest.*;
+import ru.editor.binaryeditor.core.dao.FieldDescriptionDao;
 import ru.editor.binaryeditor.core.services.Editor;
-import ru.editor.binaryeditor.core.services.type.TypeConverter;
-import ru.editor.binaryeditor.server.controllers.dto.EditorDto;
-import ru.editor.binaryeditor.server.controllers.dto.SelectedFilesDto;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.List;
 import java.util.UUID;
 
-import static ru.editor.binaryeditor.server.controllers.Mapper.toEditorDto;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.OK;
+import static ru.editor.binaryeditor.server.controllers.EditorConverter.*;
+import static ru.editor.binaryeditor.server.controllers.Endpoint.*;
 
 @Log4j2
 @CrossOrigin
@@ -24,68 +22,52 @@ import static ru.editor.binaryeditor.server.controllers.Mapper.toEditorDto;
 public class EditorController {
 
     private final Editor editor;
-    private final CachedFileService fileService;
+    private final FieldDescriptionDao fieldDescriptionDao;
 
-    @PostMapping("/tables/{tableId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void selectTable(@PathVariable UUID tableId) {
-        editor.selectTable(tableId);
+    @PostMapping(OPEN)
+    @ResponseStatus(OK)
+    public void open(@RequestBody OpenFile openFile) throws Exception {
+        editor.open(
+                toDomainBinaryFile(openFile.getBinaryFile()),
+                toDomainSpecification(openFile.getSpecification())
+        );
     }
 
-    @GetMapping("/files/view")
-    @ResponseStatus(HttpStatus.OK)
-    public EditorDto getView() {
-        return toEditorDto(editor.view(), editor.selectedTable());
+    @GetMapping(VIEW)
+    @ResponseStatus(OK)
+    public View view() {
+        ru.editor.binaryeditor.core.domain.View view = editor.view();
+        return toView(view);
     }
 
-    @PostMapping("/files/binary/open")
-    @ResponseStatus(HttpStatus.OK)
-    public void openBinaryFile() throws Exception {
-        editor.openBinary();
+    @PutMapping(FIELD_EDIT)
+    @ResponseStatus(OK)
+    public void fieldEdit(@PathVariable("field_id") UUID fieldId, @RequestBody FieldEdit fieldEdit) {
+        editor.fieldEdit(fieldId, fieldEdit.getValue());
     }
 
-    @GetMapping("/files/binary/save")
-    @ResponseStatus(HttpStatus.OK)
-    public EditorFile saveBinaryFile() throws Exception {
-        return editor.saveBinary();
+
+    @PostMapping(SAVE)
+    @ResponseStatus(OK)
+    public File save() {
+        return EditorConverter.toFile(editor.save());
     }
 
-    @GetMapping("/files/selected")
-    @ResponseStatus(HttpStatus.OK)
-    public SelectedFilesDto selectedFiles() throws IOException {
-        Path binaryPath = fileService.binaryPath();
-        Path specificationPath = fileService.specificationPath();
-        return SelectedFilesDto.builder()
-                .binaryName(binaryPath == null ? null : binaryPath.getFileName().toString())
-                .xmlName(specificationPath == null ? null : specificationPath.getFileName().toString())
-                .build();
-    }
-
-    @PostMapping("/files/binary/select")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateBinaryFile(@RequestBody EditorFile editorFile) throws Exception {
-        fileService.updateBinary(editorFile.getName(), TypeConverter.toByteArray(editorFile.getBody()));
-    }
-
-    @PostMapping("/files/specification/select")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateSpecification(@RequestBody EditorFile editorFile) throws Exception {
-        fileService.updateSpecification(editorFile.getName(), TypeConverter.toByteArray(editorFile.getBody()));
-    }
-
-    @PostMapping("/tables/{tableId}/rows/{rowId}/fields/{fieldId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void editField(
-            @PathVariable UUID tableId,
-            @PathVariable UUID rowId,
-            @PathVariable UUID fieldId,
-            @RequestBody String value
+    @GetMapping(PAGINATION)
+    @ResponseStatus(OK)
+    public List<Field> pagination(
+            @PathVariable(value = "table_id") UUID tableId,
+            @RequestParam(value = "page_number") Long pageNumber,
+            @RequestParam(value = "row_count") Long rowCount
     ) {
-        editor.editField(tableId, rowId, fieldId, value);
+        Long count = fieldDescriptionDao.getCount(tableId);
+        Long limit = rowCount * count;
+        Long offset = limit * (pageNumber - 1);
+        return toFields(editor.pagination(tableId, limit, offset));
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(BAD_REQUEST)
     public void exception(Exception e) {
         log.error(e);
     }

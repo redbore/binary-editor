@@ -13,14 +13,13 @@ import java.util.UUID;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode
-public class Field {
+public class Segment {
+
     private UUID id;
 
-    private UUID binaryFileId;
+    private UUID specificationId;
 
-    private UUID fieldDescriptionId;
+    private String name;
 
-    private String value;
-
-    private int length;
+    private String countLink;
 }

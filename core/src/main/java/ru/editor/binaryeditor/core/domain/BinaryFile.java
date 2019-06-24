@@ -13,14 +13,11 @@ import java.util.UUID;
 @ToString
 @Accessors(fluent = true)
 @EqualsAndHashCode
-public class Field {
+public class BinaryFile {
+
     private UUID id;
 
-    private UUID binaryFileId;
+    private String name;
 
-    private UUID fieldDescriptionId;
-
-    private String value;
-
-    private int length;
+    private byte[] body;
 }

@@ -1,65 +1,99 @@
 package ru.editor.binaryeditor.core.services;
 
 import lombok.RequiredArgsConstructor;
-import ru.editor.binaryeditor.core.domain.EditorFile;
-import ru.editor.binaryeditor.core.domain.Field;
-import ru.editor.binaryeditor.core.domain.OpenedBinary;
-import ru.editor.binaryeditor.core.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
+import ru.editor.binaryeditor.core.dao.*;
+import ru.editor.binaryeditor.core.domain.*;
+import ru.editor.binaryeditor.core.services.interfaces.FileReader;
+import ru.editor.binaryeditor.core.services.interfaces.FileWriter;
 
-import java.nio.file.Path;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class Editor {
 
-    private final BinaryReader binaryReader;
-    private final BinaryWriter binaryWriter;
-    private final CachedFileService fileService;
-    private final SpecificationReader specificationReader;
+    private final SpecificationDao specificationDao;
+    private final BinaryFileDao binaryFileDao;
+    private final SegmentDao segmentDao;
+    private final FileReader binaryFileReader;
+    private final FileReader specificationReader;
+    private final FieldDescriptionDao fieldDescriptionDao;
+    private final FieldDao fieldDao;
+    private final FileWriter binaryFileWriter;
 
-    private UUID selectedTable;
-    private OpenedBinary openedBinary;
-    private Specification specification;
+    @Transactional
+    public View view() {
+        Optional<Specification> specificationOptional = specificationDao.find();
+        Optional<BinaryFile> binaryFileOptional = binaryFileDao.find();
 
-    private void init() throws Exception {
-        openBinary();
-    }
-
-    public void selectTable(UUID tableId) {
-        selectedTable = tableId;
-    }
-
-    public void openBinary() throws Exception {
-        Path binaryPath = fileService.binaryPath();
-        Path specificationPath = fileService.specificationPath();
-        if (binaryPath != null && specificationPath != null) {
-            try {
-                specification = specificationReader.read();
-                openedBinary = binaryReader.read(specification);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            selectedTable = null;
+        if (!specificationOptional.isPresent() || !binaryFileOptional.isPresent()) {
+            return View.empty();
         }
+        Specification specification = specificationOptional.get();
+        BinaryFile binaryFile = binaryFileOptional.get();
+
+        List<Segment> segments = segmentDao.getAll(specification.id());
+
+        List<FieldDescription> fieldDescriptions = fieldDescriptionDao
+                .getAllBySpecificationId(specification.id());
+
+        Map<UUID, List<FieldDescription>> fieldDescriptionsMap = fieldDescriptions.stream()
+                .collect(Collectors.groupingBy(FieldDescription::segmentId));
+
+        Map<Segment, SegmentInfo> segmentInfoMap = segments.stream()
+                .collect(Collectors.toMap(
+                        segment -> segment,
+                        segment -> SegmentInfo.builder()
+                                .fieldCount(fieldDao.count(segment.id()))
+                                .fieldDescriptions(fieldDescriptionsMap.get(segment.id()))
+                                .build(),
+                        (segment, segment1) -> segment,
+                        LinkedHashMap::new
+                ));
+
+        return View.builder()
+                .binaryFile(binaryFile)
+                .specification(specification)
+                .segments(segmentInfoMap)
+                .build();
     }
 
-    public EditorFile saveBinary() throws Exception {
-        return binaryWriter.write(openedBinary, specification);
+    @Transactional
+    public List<Field> pagination(UUID segmentId, Long limit, Long offset) {
+        return fieldDao.pagination(segmentId, limit, offset);
     }
 
-    public void editField(UUID typeId, UUID instanceId, UUID fieldId, Object value) {
-        Field field = openedBinary
-                .type(typeId)
-                .getInstance(instanceId)
-                .getField(fieldId);
-        field.value(value);
+    @Transactional
+    public void fieldEdit(UUID fieldId, String newValue) {
+        fieldDao.updateValue(fieldId, newValue);
     }
 
-    public OpenedBinary view() {
-        return openedBinary;
+    @Transactional
+    public void open(BinaryFile binaryFile, Specification specification) throws Exception {
+        clean();
+        specificationDao.insert(specification);
+        binaryFileDao.insert(binaryFile);
+
+        specificationReader.read(binaryFile.id(), specification.id());
+        binaryFileReader.read(binaryFile.id(), specification.id());
     }
 
-    public UUID selectedTable() {
-        return selectedTable;
+    @Transactional
+    public BinaryFile save() { // send Ids
+        BinaryFile binaryFile = binaryFileDao.get();
+        Specification specification = specificationDao.get();
+
+        binaryFileWriter.write(binaryFile.id(), specification.id());
+        return binaryFileDao.getWithBody();
     }
+
+    private void clean() {
+        fieldDao.clean();
+        fieldDescriptionDao.clean();
+        segmentDao.clean();
+        specificationDao.clean();
+        binaryFileDao.clean();
+    }
+
 }
