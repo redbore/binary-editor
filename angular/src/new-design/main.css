@@ -1,0 +1,149 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #0E1621 !important;
+}
+
+.panel {
+    display: flex;
+    flex-direction: row;
+}
+
+.left-element {
+    width: 40%;
+    display: flex;
+}
+
+.center-element {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-element {
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.operation-element {
+    width: 25%;
+    flex-direction: column;
+    display: flex;
+}
+
+.file-element {
+    width: 15%;
+    flex-direction: column;
+    display: flex;
+}
+
+.text-element {
+    width: 60%;
+    margin-left: 2%;
+    flex-direction: column;
+    display: flex;
+}
+
+.name-element {
+    color: white;
+    font-size: 21px;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search-element, .select-element {
+    background-color: #242F3D !important;
+    border-color: #0E1621 !important;
+    color: white !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+}
+
+.center-element > .search-element, .center-element > .select-element {
+    height: 50% !important;
+    font-size: 19px !important;
+}
+
+.pagination > .select-element {
+    height: auto !important;
+    width: auto;
+}
+
+.panel-btn {
+    background-color: #242F3D !important;
+    font-size: 19px !important;
+    border-radius: 0 !important;
+}
+
+.operation-element > .panel-btn, .file-element > .panel-btn {
+    margin: 1px 1px 1px 1px;
+}
+
+.pagination-element {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.pagination {
+    margin: auto !important;
+}
+
+.pagination-btn {
+    width: 35px;
+    height: 35px;
+    background-color: #242F3D !important;
+    margin: 1px 1px;
+    color: white;
+    border: none !important;
+}
+
+.page-link {
+    color: white !important;
+}
+
+.modal-body {
+    padding: 0 !important;
+    border: none;
+}
+
+.modal-footer {
+    padding: 0 !important;
+    background: #0E1621;
+}
+
+textarea {
+    border-radius: 0 !important;
+}
+
+thead {
+    font-size: 21px !important;
+}
+
+th {
+    background: #17212B !important;
+    border-radius: 0 !important;
+    border-color: #0E1621 !important;
+}
+
+tr {
+    text-align: center;
+    color: white;
+    background: #182533 !important;
+}
+
+td {
+    border-color: #0E1621 !important;
+}
+
+tbody {
+    font-size: 19px !important;
+}
+
+

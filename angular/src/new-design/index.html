@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="panel">
+    <div class="left-element">
+        <div class="operation-element">
+            <button type="button" class="btn btn-dark panel-btn">Open</button>
+            <button type="button" class="btn btn-dark panel-btn">Save</button>
+        </div>
+        <div class="file-element">
+            <button type="button" class="btn btn-dark panel-btn">Spec</button>
+            <button type="button" class="btn btn-dark panel-btn">Binary</button>
+        </div>
+        <div class="text-element">
+            <div class="name-element">example1.xml</div>
+            <div class="name-element">example1</div>
+        </div>
+    </div>
+
+
+    <div class="center-element">
+        <input class="form-control search-element" type="text" placeholder="Search" aria-label="Search">
+
+        <select class="form-control select-element">
+            <option>header</option>
+            <option>segment</option>
+        </select>
+    </div>
+
+    <div class="right-element">
+        <div class="pagination-element">
+            <ul class="pagination">
+                <select class="form-control select-element">
+                    <option>10</option>
+                    <option>20</option>
+                    <option>40</option>
+                </select>
+                <button class="pagination-btn">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Test</th>
+        <th scope="col">Test</th>
+        <th scope="col">Test</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>123</td>
+        <td>123</td>
+        <td>text texttext text</td>
+    </tr>
+    <tr>
+        <td>123</td>
+        <td>123</td>
+        <td>text texttext text</td>
+    </tr>
+    <tr>
+        <td>123</td>
+        <td>123</td>
+        <td>text texttext text</td>
+    </tr>
+    </tbody>
+</table>
+
+<!--
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"></button>
+-->
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <textarea class="form-control text-area-element" rows="10"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark panel-btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
