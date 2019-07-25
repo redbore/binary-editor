@@ -1,39 +1,45 @@
-<div class="oops" *ngIf="!active">
-    Oops...
-</div>
-<div *ngIf="active">
+<app-panel></app-panel>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">Test</th>
+        <th scope="col">Test</th>
+        <th scope="col">Test</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>123</td>
+        <td>123</td>
+        <td>text texttext text</td>
+    </tr>
+    <tr>
+        <td>123</td>
+        <td>123</td>
+        <td>text texttext text</td>
+    </tr>
+    <tr>
+        <td>123</td>
+        <td>123</td>
+        <td>text texttext text</td>
+    </tr>
+    </tbody>
+</table>
 
-    <app-panel></app-panel>
 
-    <div class="menu">
+<button type="button" class="btn btn-primary" (click)="modal" data-toggle="modal"
+        data-target="#exampleModalCenter"></button>
 
-        <div class="tables-names" *ngIf="view != null">
-            <button class="btn btn-secondary table-name" *ngFor="let tableName of view.tablesNames"
-                    (click)="openTable(tableName.uuid)">{{tableName.name}}</button>
-        </div>
-
-        <div class="table table-striped" *ngIf="view != null">
-
-            <table style="width: 100%" *ngIf="view.selectedTable != null" border="1">
-                <thead class="thead-dark">
-                <tr>
-                    <th class="column input"
-                        *ngFor="let columnName of view.selectedTable.columnsNames">{{columnName}}
-                    </th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr *ngFor="let  row of view.selectedTable.rows">
-                    <td class="min" *ngFor="let field of row.fields">
-                        <input class="form-control input"
-                               (blur)="editField(view.selectedTable.uuid, row.uuid, field.uuid, $event)"
-                               type="text"
-                               value="{{field.value}}"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <textarea class="form-control text-area-element" rows="10"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark panel-btn">Save</button>
+            </div>
         </div>
     </div>
 </div>
