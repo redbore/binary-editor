@@ -44,6 +44,12 @@ public class OneCountLinkExampleIT extends AbstractTestNGSpringContextTests impl
 
     @Test
     @Override
+    public void testReplaceOneFile() throws IOException {
+        verifier.verifyReplaceOneFile();
+    }
+
+    @Test
+    @Override
     public void testViewFile() throws IOException {
         List<TableDescription> expectedTableDescriptions = newArrayList(
                 tableDescription()

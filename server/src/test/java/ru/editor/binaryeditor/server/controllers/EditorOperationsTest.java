@@ -6,6 +6,8 @@ public interface EditorOperationsTest {
 
     void testOpenFile() throws IOException;
 
+    void testReplaceOneFile() throws IOException;
+
     void testViewFile() throws IOException;
 
     void testPagination(String tableName, Long limit, Long offset, Long expectedRowCount) throws IOException;

@@ -43,6 +43,12 @@ public class SpecificationDaoImpl implements SpecificationDao {
         return find().orElseThrow(() -> new RuntimeException("Specification not found"));
     }
 
+    @Override
+    public Specification getWithBody() {
+        final String query = "SELECT id, name, body FROM specification LIMIT 1";
+        return jdbcTemplate.query(query, this::toSpecificationWithBody);
+    }
+
     private Optional<Specification> toSpecification(ResultSet resultSet) throws SQLException {
         if (!resultSet.next()) {
             return Optional.empty();
@@ -51,6 +57,17 @@ public class SpecificationDaoImpl implements SpecificationDao {
                 .id(UUID.fromString(resultSet.getString("id")))
                 .name(resultSet.getString("name"))
                 .build());
+    }
+
+    private Specification toSpecificationWithBody(ResultSet resultSet) throws SQLException {
+        if (!resultSet.next()) {
+            throw new RuntimeException("BinaryFile not found");
+        }
+        return Specification.builder()
+                .id(UUID.fromString(resultSet.getString("id")))
+                .name(resultSet.getString("name"))
+                .body(resultSet.getBytes("body"))
+                .build();
     }
 
     private byte[] toSpecificationBody(ResultSet resultSet) throws SQLException {

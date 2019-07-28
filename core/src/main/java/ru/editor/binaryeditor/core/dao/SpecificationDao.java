@@ -15,4 +15,6 @@ public interface SpecificationDao {
     Optional<Specification> find();
 
     Specification get();
+
+    Specification getWithBody();
 }

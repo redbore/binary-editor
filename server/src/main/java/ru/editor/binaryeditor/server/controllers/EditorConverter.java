@@ -7,7 +7,6 @@ import rest.View;
 import ru.editor.binaryeditor.core.domain.*;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static rest.ApiConverter.toByteArray;
@@ -17,17 +16,17 @@ public final class EditorConverter {
 
     public static BinaryFile toDomainBinaryFile(File file) {
         return BinaryFile.builder()
-                .id(UUID.randomUUID())
-                .name(file.getFileName())
-                .body(toByteArray(file.getFileBody()))
+                .id(file.getId())
+                .name(file.getName())
+                .body(file.getBody() != null ? toByteArray(file.getBody()) : null)
                 .build();
     }
 
     public static Specification toDomainSpecification(File file) {
         return Specification.builder()
-                .id(UUID.randomUUID())
-                .name(file.getFileName())
-                .body(toByteArray(file.getFileBody()))
+                .id(file.getId())
+                .name(file.getName())
+                .body(file.getBody() != null ? toByteArray(file.getBody()) : null)
                 .build();
     }
 
@@ -49,16 +48,22 @@ public final class EditorConverter {
                 })
                 .collect(Collectors.toList());
         return View.builder()
-                .binaryFileName(view.binaryFile().name())
-                .specificationName(view.specification().name())
+                .binaryFile(File.builder()
+                        .id(view.binaryFile().id())
+                        .name(view.binaryFile().name())
+                        .build())
+                .specification(File.builder()
+                        .id(view.specification().id())
+                        .name(view.specification().name())
+                        .build())
                 .tableDescriptions(tableDescriptions)
                 .build();
     }
 
     public static File toFile(BinaryFile binaryFile) {
         return File.builder()
-                .fileName(binaryFile.name())
-                .fileBody(toIntArray(binaryFile.body()))
+                .name(binaryFile.name())
+                .body(toIntArray(binaryFile.body()))
                 .build();
     }
 

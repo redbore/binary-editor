@@ -10,6 +10,8 @@ import ru.editor.binaryeditor.core.services.interfaces.FileWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.UUID.randomUUID;
+
 @RequiredArgsConstructor
 public class Editor {
 
@@ -71,6 +73,9 @@ public class Editor {
 
     @Transactional
     public void open(BinaryFile binaryFile, Specification specification) throws Exception {
+        binaryFile = binaryFile.id() != null ? binaryFileDao.getWithBody() : binaryFile.id(randomUUID());
+        specification = specification.id() != null ? specificationDao.getWithBody() : specification.id(randomUUID());
+
         clean();
         specificationDao.insert(specification);
         binaryFileDao.insert(binaryFile);

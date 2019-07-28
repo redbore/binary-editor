@@ -20,4 +20,9 @@ public class BinaryFile {
     private String name;
 
     private byte[] body;
+
+    public BinaryFile id(UUID id) {
+        this.id = id;
+        return this;
+    }
 }

@@ -26,8 +26,28 @@ public class EditorOperationsVerifier {
         editorClient.open(openFile);
         View view = editorClient.view();
 
-        assertThat(view.getSpecificationName()).isEqualTo(specification.getFilename());
-        assertThat(view.getBinaryFileName()).isEqualTo(binaryFile.getFilename());
+        assertThat(view.getSpecification().getName()).isEqualTo(specification.getFilename());
+        assertThat(view.getBinaryFile().getName()).isEqualTo(binaryFile.getFilename());
+    }
+
+    public void verifyReplaceOneFile() throws IOException {
+        OpenFile openFile = openFile(binaryFile, specification);
+
+        editorClient.open(openFile);
+        View view = editorClient.view();
+
+        OpenFile partialOpenFile = OpenFile.builder()
+                .binaryFile(File.builder().id(view.getBinaryFile().getId()).build())
+                .specification(File.builder().id(view.getSpecification().getId()).build())
+                .build();
+
+        editorClient.open(partialOpenFile);
+        View viewAfterPartialOpenFile = editorClient.view();
+
+        assertThat(viewAfterPartialOpenFile.getSpecification().getId()).isEqualTo(view.getSpecification().getId());
+        assertThat(viewAfterPartialOpenFile.getSpecification().getName()).isEqualTo(specification.getFilename());
+        assertThat(viewAfterPartialOpenFile.getBinaryFile().getId()).isEqualTo(view.getBinaryFile().getId());
+        assertThat(viewAfterPartialOpenFile.getBinaryFile().getName()).isEqualTo(binaryFile.getFilename());
     }
 
     public void verifyView(List<TableDescription> expectedTableDescriptions) throws IOException {
@@ -36,8 +56,8 @@ public class EditorOperationsVerifier {
         editorClient.open(openFile);
         View view = editorClient.view();
 
-        assertThat(view.getSpecificationName()).isEqualTo(specification.getFilename());
-        assertThat(view.getBinaryFileName()).isEqualTo(binaryFile.getFilename());
+        assertThat(view.getSpecification().getName()).isEqualTo(specification.getFilename());
+        assertThat(view.getBinaryFile().getName()).isEqualTo(binaryFile.getFilename());
         assertThat(view.getTableDescriptions())
                 .usingElementComparatorIgnoringFields("id")
                 .isEqualTo(expectedTableDescriptions);
@@ -84,8 +104,8 @@ public class EditorOperationsVerifier {
         editorClient.open(openFile);
 
         File fileBeforeEdit = editorClient.save();
-        assertThat(fileBeforeEdit.getFileName()).isEqualTo(binaryFile.getFilename());
-        assertThat(fileBeforeEdit.getFileBody()).isEqualTo(openFile.getBinaryFile().getFileBody());
+        assertThat(fileBeforeEdit.getName()).isEqualTo(binaryFile.getFilename());
+        assertThat(fileBeforeEdit.getBody()).isEqualTo(openFile.getBinaryFile().getBody());
 
         View view = editorClient.view();
         TableDescription tableDescription = selectTable(
@@ -104,8 +124,8 @@ public class EditorOperationsVerifier {
         editorClient.fieldEdit(fieldBeforeEdit.getId(), "1");
 
         File fileAfterEdit = editorClient.save();
-        assertThat(fileAfterEdit.getFileName()).isEqualTo(binaryFile.getFilename());
-        assertThat(fileAfterEdit.getFileBody()).isNotEqualTo(openFile.getBinaryFile().getFileBody());
+        assertThat(fileAfterEdit.getName()).isEqualTo(binaryFile.getFilename());
+        assertThat(fileAfterEdit.getBody()).isNotEqualTo(openFile.getBinaryFile().getBody());
     }
 
     public void workFiles(Resource binaryFile, Resource specification) {

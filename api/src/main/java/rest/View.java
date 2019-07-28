@@ -10,11 +10,11 @@ import java.util.List;
 @Builder
 public class View {
 
-    @JsonProperty("binary_file_name")
-    private String binaryFileName;
+    @JsonProperty("binary_file")
+    private File binaryFile;
 
-    @JsonProperty("specification_name")
-    private String specificationName;
+    @JsonProperty("specification")
+    private File specification;
 
     @JsonProperty("table_descriptions")
     private List<TableDescription> tableDescriptions;
