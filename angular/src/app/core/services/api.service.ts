@@ -1,7 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {environment} from '../../environments/environment';
+import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
+import {EditorFile} from "../domain/EditorFile";
 
 @Injectable()
 export class ApiService {
@@ -9,6 +10,13 @@ export class ApiService {
 
     constructor(private http: HttpClient) {
         this.host = environment.backendHost;
+    }
+
+    public open(binary: EditorFile, spec: EditorFile): Observable<any> {
+        return this.post("/open", {
+            specification: spec,
+            binary_file: binary
+        })
     }
 
     private get<T>(path: string): Observable<T> {
