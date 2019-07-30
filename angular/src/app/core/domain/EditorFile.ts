@@ -3,9 +3,9 @@ export class EditorFile {
     name: String;
     body: Array<Number>;
 
-    constructor(id: String, name: String, body: Array<Number>) {
-        this.id = id;
+    constructor(name: String, body: Array<Number>, id?: String) {
         this.name = name;
         this.body = body;
+        this.id = id;
     }
 }

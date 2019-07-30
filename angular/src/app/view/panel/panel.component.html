@@ -1,17 +1,19 @@
 <div class="panel">
     <div class="left-element">
         <div class="operation-element">
-            <button type="button" class="btn btn-dark panel-btn">Open</button>
-            <button type="button" class="btn btn-dark panel-btn">Save</button>
+            <button type="button" class="btn btn-dark panel-btn"><label>Open</label></button>
+            <button type="button" class="btn btn-dark panel-btn"><label>Save</label></button>
         </div>
         <div class="file-element">
-            <button type="button" class="btn btn-dark panel-btn">Spec</button>
-            <button type="button" class="btn btn-dark panel-btn">Binary</button>
+            <button type="button" class="btn btn-dark panel-btn"><label for="spec">Spec</label></button>
+            <button type="button" class="btn btn-dark panel-btn"><label for="binary">Binary</label></button>
         </div>
         <div class="text-element">
-            <div class="name-element">{{fileService.spec}}</div>
-            <div class="name-element">{{fileService.binary}}</div>
+            <div class="name-element">{{fileService.spec == null ? '' : fileService.spec.name}}</div>
+            <div class="name-element">{{fileService.binary == null ? '' : fileService.binary.name}}</div>
         </div>
+        <input id=spec type="file" (change)="selectSpec($event)" style="display: none">
+        <input id="binary" type="file" (change)="selectBinary($event)" style="display: none">
     </div>
 
     <div class="center-element">

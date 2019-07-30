@@ -20,9 +20,7 @@ export class PanelComponent {
         reader.readAsArrayBuffer(file);
 
         reader.onload = () => {
-            this.fileService.spec = new EditorFile(
-                null, file.name, Array.from(new Int8Array(<ArrayBuffer>reader.result))
-            );
+            this.fileService.spec = new EditorFile(file.name, Array.from(new Int8Array(<ArrayBuffer>reader.result)));
         }
     }
 
@@ -32,9 +30,7 @@ export class PanelComponent {
         reader.readAsArrayBuffer(file);
 
         reader.onload = () => {
-            this.fileService.binary = new EditorFile(
-                null, file.name, Array.from(new Int8Array(<ArrayBuffer>reader.result))
-            );
+            this.fileService.binary = new EditorFile(file.name, Array.from(new Int8Array(<ArrayBuffer>reader.result)));
         }
     }
 
