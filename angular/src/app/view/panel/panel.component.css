@@ -102,3 +102,12 @@
 .page-link {
     color: white !important;
 }
+
+.error {
+    padding: 10px;
+    background: #2B5279;
+    border: 0 !important;
+    color: white;
+    font-size: 20px;
+    margin: 0 0 1px 0 !important;
+}

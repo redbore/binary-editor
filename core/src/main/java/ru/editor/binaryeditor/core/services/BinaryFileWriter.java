@@ -27,7 +27,6 @@ public class BinaryFileWriter implements FileWriter {
     private final FieldDescriptionDao fieldDescriptionDao;
 
     public void write(UUID binaryFileId, UUID specificationId) {
-
         List<Field> fields = fieldDao.getAll(binaryFileId);
         Map<UUID, FieldDescription> fieldDescriptions = fieldDescriptionDao.getAllBySpecificationId(specificationId).stream()
                 .collect(Collectors.toMap(FieldDescription::id, fd -> fd));

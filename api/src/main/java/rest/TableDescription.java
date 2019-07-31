@@ -21,11 +21,11 @@ public class TableDescription {
     @JsonProperty("name")
     private final String name;
 
-    @JsonProperty("field_count")
+    @JsonProperty("row_count")
     private long rowCount;
 
-    @JsonProperty("column_names")
-    private final List<String> columnNames;
+    @JsonProperty("columns_names")
+    private final List<String> columnsNames;
 
     public static TableDescription.TableDescriptionBuilder tableDescription() {
         return builder();

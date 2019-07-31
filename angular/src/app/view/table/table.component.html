@@ -1,26 +1,12 @@
-<table class="table table-bordered">
+<table *ngIf="tableService.selectedTable != null" class="table table-bordered">
     <thead>
     <tr>
-        <th scope="col">Test</th>
-        <th scope="col">Test</th>
-        <th scope="col">Test</th>
+        <th *ngFor="let columnName of tableService.selectedTable.columns_names">{{columnName}}</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>123</td>
-        <td>123</td>
-        <td>text texttext text</td>
-    </tr>
-    <tr>
-        <td>123</td>
-        <td>123</td>
-        <td>text texttext text</td>
-    </tr>
-    <tr>
-        <td>123</td>
-        <td>123</td>
-        <td>text texttext text</td>
+    <tr *ngFor="let row of tableService.rows">
+        <td *ngFor="let field of row.fields">{{field.value}}</td>
     </tr>
     </tbody>
 </table>

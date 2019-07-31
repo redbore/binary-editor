@@ -13,9 +13,9 @@ public class File {
     @JsonProperty("id")
     private final UUID id;
 
-    @JsonProperty("file_name")
+    @JsonProperty("name")
     private final String name;
 
-    @JsonProperty("file_body")
+    @JsonProperty("body")
     private final int[] body;
 }

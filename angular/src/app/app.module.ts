@@ -7,7 +7,10 @@ import {HttpClientModule} from '@angular/common/http';
 import {ApiService} from './core/services/api.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PanelComponent} from "./view/panel/panel.component";
-import {FileService} from "./core/services/file.service";
+import {ErrorHandler} from "./core/services/error.handler";
+import {TableService} from "./core/services/table.service";
+import {PanelService} from "./core/services/panel.service";
+import {PaginationService} from "./core/services/pagination.service";
 
 @NgModule({
     declarations: [
@@ -23,7 +26,10 @@ import {FileService} from "./core/services/file.service";
     ],
     providers: [
         ApiService,
-        FileService
+        PanelService,
+        TableService,
+        ErrorHandler,
+        PaginationService
     ],
     bootstrap: [AppComponent],
 })

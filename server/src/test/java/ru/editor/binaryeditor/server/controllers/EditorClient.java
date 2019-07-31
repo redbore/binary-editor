@@ -32,17 +32,17 @@ public class EditorClient {
         return restTemplate.getForObject(VIEW, View.class);
     }
 
-    public List<Field> pagination(UUID tableDescriptionId, Long rowCount, Long pageNumber) {
+    public List<Row> pagination(UUID tableDescriptionId, Long rowCount, Long pageNumber) {
         UriComponents uri = UriComponentsBuilder.fromUriString(PAGINATION)
                 .queryParam("row_count", rowCount)
                 .queryParam("page_number", pageNumber)
                 .build();
-        ResponseEntity<List<Field>> responseEntity = restTemplate
+        ResponseEntity<List<Row>> responseEntity = restTemplate
                 .exchange(
                         uri.toUriString(),
                         HttpMethod.GET,
                         HttpEntity.EMPTY,
-                        new ParameterizedTypeReference<List<Field>>() {
+                        new ParameterizedTypeReference<List<Row>>() {
                         },
                         tableDescriptionId
                 );

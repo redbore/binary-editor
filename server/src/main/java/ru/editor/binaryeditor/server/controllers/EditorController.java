@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import rest.*;
 import ru.editor.binaryeditor.core.dao.FieldDescriptionDao;
+import ru.editor.binaryeditor.core.domain.FieldDescription;
 import ru.editor.binaryeditor.core.services.Editor;
 
 import java.util.List;
@@ -46,7 +47,6 @@ public class EditorController {
         editor.fieldEdit(fieldId, fieldEdit.getValue());
     }
 
-
     @PostMapping(SAVE)
     @ResponseStatus(OK)
     public File save() {
@@ -55,20 +55,23 @@ public class EditorController {
 
     @GetMapping(PAGINATION)
     @ResponseStatus(OK)
-    public List<Field> pagination(
-            @PathVariable(value = "table_id") UUID tableId,
+    public List<Row> pagination(
+            @PathVariable(value = "table_id") UUID segmentId,
             @RequestParam(value = "page_number") Long pageNumber,
             @RequestParam(value = "row_count") Long rowCount
     ) {
-        Long count = fieldDescriptionDao.getCount(tableId);
+        Long count = fieldDescriptionDao.getCount(segmentId);
         Long limit = rowCount * count;
         Long offset = limit * (pageNumber - 1);
-        return toFields(editor.pagination(tableId, limit, offset));
+
+        List<FieldDescription> fieldDescriptions = fieldDescriptionDao.getAllBySegmentId(segmentId);
+        return toRows(editor.pagination(segmentId, limit, offset), fieldDescriptions.size());
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(BAD_REQUEST)
-    public void exception(Exception e) {
+    public String exception(Exception e) {
         log.error(e);
+        return e.getMessage();
     }
 }

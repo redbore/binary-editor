@@ -54,13 +54,13 @@ public class OneCountLinkExampleIT extends AbstractTestNGSpringContextTests impl
         List<TableDescription> expectedTableDescriptions = newArrayList(
                 tableDescription()
                         .name("header")
-                        .columnNames(newArrayList("version", "segment_count", "file_type"))
+                        .columnsNames(newArrayList("version", "segment_count", "file_type"))
                         .rowCount(1)
                         .build(),
 
                 tableDescription()
                         .name("segment")
-                        .columnNames(newArrayList(
+                        .columnsNames(newArrayList(
                                 "id", "Chance_0", "Chance_1", "Chance_2", "Chance_3",
                                 "Type_0", "Type_1", "Type_2", "Type_3", "Value_0",
                                 "Value_1", "Value_2", "Value_3",

@@ -1,7 +1,8 @@
+<div *ngIf="errorHandler.message!= null" class="error">{{errorHandler.message}}</div>
 <div class="panel">
     <div class="left-element">
         <div class="operation-element">
-            <button type="button" class="btn btn-dark panel-btn"><label>Open</label></button>
+            <button type="button" class="btn btn-dark panel-btn" (click)="open()"><label>Open</label></button>
             <button type="button" class="btn btn-dark panel-btn"><label>Save</label></button>
         </div>
         <div class="file-element">
@@ -9,8 +10,8 @@
             <button type="button" class="btn btn-dark panel-btn"><label for="binary">Binary</label></button>
         </div>
         <div class="text-element">
-            <div class="name-element">{{fileService.spec == null ? '' : fileService.spec.name}}</div>
-            <div class="name-element">{{fileService.binary == null ? '' : fileService.binary.name}}</div>
+            <div class="name-element">{{panelService.spec == null ? '' : panelService.spec.name}}</div>
+            <div class="name-element">{{panelService.binary == null ? '' : panelService.binary.name}}</div>
         </div>
         <input id=spec type="file" (change)="selectSpec($event)" style="display: none">
         <input id="binary" type="file" (change)="selectBinary($event)" style="display: none">
@@ -19,23 +20,24 @@
     <div class="center-element">
         <input class="form-control search-element" type="text" placeholder="Search" aria-label="Search">
 
-        <select class="form-control select-element">
-            <option>header</option>
-            <option>segment</option>
+        <select class="form-control select-element" (change)="selectTable($event.target.value)">
+            <option value="empty" selected></option>
+            <option *ngFor="let tableDesc of tableService.tablesDescriptions"
+                    value="{{tableDesc.id}}">{{tableDesc.name}}</option>
         </select>
     </div>
 
     <div class="right-element">
         <div class="pagination-element">
             <ul class="pagination">
-                <select class="form-control select-element">
-                    <option>10</option>
-                    <option>20</option>
-                    <option>40</option>
+                <select class="form-control select-element" (change)="selectViewRowCount($event.target.value)">
+                    <option *ngFor="let rowCount of paginationService.viewRowCounts"
+                            value="{{rowCount}}">{{rowCount}}</option>
                 </select>
-                <button class="pagination-btn">1</button>
-                <button class="pagination-btn">2</button>
-                <button class="pagination-btn">3</button>
+
+                <button *ngFor="let pageNumber of paginationService.pageNumbers"
+                        (click)="selectPageNumber(pageNumber)"
+                        class="pagination-btn">{{pageNumber}}</button>
             </ul>
         </div>
     </div>

@@ -58,7 +58,7 @@ public class EditorOperationsVerifier {
 
         assertThat(view.getSpecification().getName()).isEqualTo(specification.getFilename());
         assertThat(view.getBinaryFile().getName()).isEqualTo(binaryFile.getFilename());
-        assertThat(view.getTableDescriptions())
+        assertThat(view.getTablesDescriptions())
                 .usingElementComparatorIgnoringFields("id")
                 .isEqualTo(expectedTableDescriptions);
     }
@@ -71,9 +71,9 @@ public class EditorOperationsVerifier {
         editorClient.open(openFile);
         View view = editorClient.view();
 
-        TableDescription tableDescription = selectTable(view.getTableDescriptions(), tableName);
-        List<Field> fields = editorClient.pagination(tableDescription.getId(), rowCount, pageNumber);
-        assertThat(fields.size() / tableDescription.getColumnNames().size()).isEqualTo(expectedRowCount.intValue());
+        TableDescription tableDescription = selectTable(view.getTablesDescriptions(), tableName);
+        List<Row> rows = editorClient.pagination(tableDescription.getId(), rowCount, pageNumber);
+        assertThat(rows.size()).isEqualTo(expectedRowCount.intValue());
     }
 
     public void verifyFieldEdit(
@@ -84,16 +84,16 @@ public class EditorOperationsVerifier {
         editorClient.open(openFile);
         View view = editorClient.view();
 
-        TableDescription tableDescription = selectTable(view.getTableDescriptions(), tableName);
+        TableDescription tableDescription = selectTable(view.getTablesDescriptions(), tableName);
 
-        List<Field> fieldsBeforeEdit = editorClient.pagination(tableDescription.getId(), rowCount, pageNumber);
-        Field fieldBeforeEdit = selectField(fieldsBeforeEdit, tableDescription.getColumnNames(), columnName, rowNumber);
+        List<Row> rowsBeforeEdit = editorClient.pagination(tableDescription.getId(), rowCount, pageNumber);
+        Field fieldBeforeEdit = selectField(rowsBeforeEdit, tableDescription.getColumnsNames(), columnName, rowNumber);
         assertThat(fieldBeforeEdit.getValue()).isNotEqualTo(newValue);
 
         editorClient.fieldEdit(fieldBeforeEdit.getId(), newValue);
 
-        List<Field> fieldsAfterEdit = editorClient.pagination(tableDescription.getId(), rowCount, pageNumber);
-        Field fieldAfterEdit = selectField(fieldsAfterEdit, tableDescription.getColumnNames(), columnName, rowNumber);
+        List<Row> rowsAfterEdit = editorClient.pagination(tableDescription.getId(), rowCount, pageNumber);
+        Field fieldAfterEdit = selectField(rowsAfterEdit, tableDescription.getColumnsNames(), columnName, rowNumber);
         assertThat(fieldBeforeEdit.getId()).isEqualTo(fieldAfterEdit.getId());
         assertThat(fieldBeforeEdit.getValue()).isNotEqualTo(newValue);
     }
@@ -109,18 +109,16 @@ public class EditorOperationsVerifier {
 
         View view = editorClient.view();
         TableDescription tableDescription = selectTable(
-                view.getTableDescriptions(),
-                view.getTableDescriptions().get(0).getName()
+                view.getTablesDescriptions(),
+                view.getTablesDescriptions().get(0).getName()
         );
-
-        List<Field> fieldsBeforeEdit = editorClient.pagination(tableDescription.getId(), 1L, 0L);
+        List<Row> rowsBeforeEdit = editorClient.pagination(tableDescription.getId(), 1L, 0L);
         Field fieldBeforeEdit = selectField(
-                fieldsBeforeEdit,
-                tableDescription.getColumnNames(),
-                tableDescription.getColumnNames().get(0),
+                rowsBeforeEdit,
+                tableDescription.getColumnsNames(),
+                tableDescription.getColumnsNames().get(0),
                 1L
         );
-
         editorClient.fieldEdit(fieldBeforeEdit.getId(), "1");
 
         File fileAfterEdit = editorClient.save();

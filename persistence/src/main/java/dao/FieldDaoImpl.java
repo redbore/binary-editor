@@ -29,7 +29,7 @@ public class FieldDaoImpl implements FieldDao {
 
     @Override
     public List<Field> getAll(UUID binaryFileId) {
-        final String query = "SELECT * FROM field WHERE binary_file_id = ?";
+        final String query = "SELECT * FROM field WHERE binary_file_id = ? ORDER BY serial_number";
         return jdbcTemplate.query(query, this::toField, binaryFileId);
     }
 
@@ -43,6 +43,7 @@ public class FieldDaoImpl implements FieldDao {
         final String query = "SELECT f.id, f.length, f.binary_file_id, f.field_description_id, f.value FROM field f " +
                 "JOIN field_description fd ON f.field_description_id = fd.id " +
                 "WHERE fd.segment_id = ? " +
+                "ORDER BY serial_number " +
                 "LIMIT ? OFFSET ?";
         return jdbcTemplate.query(query, this::toField, segmentId, limit, offset);
     }

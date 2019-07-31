@@ -31,7 +31,6 @@ public class BinaryFileReader implements FileReader {
     public void read(UUID binaryFileId, UUID specificationId) {
         byte[] body = binaryFileDao.getBody();
         AtomicInteger offset = new AtomicInteger();
-
         List<Segment> segments = segmentDao.getAll(specificationId);
 
         readSegments(segments, binaryFileId, body, offset);
@@ -39,9 +38,7 @@ public class BinaryFileReader implements FileReader {
 
     private void readSegments(List<Segment> segments, UUID binaryFileId, byte[] body, AtomicInteger offset) {
         segments.forEach(segment -> {
-
             int count = countByLink(segment); // repeat count
-
             List<FieldDescription> fieldDescriptions = fieldDescriptionDao.getAllBySegmentId(segment.id());
 
             for (int i = 0; i < count; i++) {
@@ -51,12 +48,14 @@ public class BinaryFileReader implements FileReader {
     }
 
     private void readFields(
-            List<FieldDescription> fieldDescriptions, UUID binaryFileId, byte[] body, AtomicInteger offset, int iteration
+            List<FieldDescription> fieldDescriptions,
+            UUID binaryFileId,
+            byte[] body,
+            AtomicInteger offset,
+            int iteration
     ) {
         fieldDescriptions.forEach(fieldDescription -> {
-
             int length = lengthByLink(fieldDescription, iteration); //type length
-
             Type type = type(fieldDescription.type());
             TypeReader reader = reader(type);
 

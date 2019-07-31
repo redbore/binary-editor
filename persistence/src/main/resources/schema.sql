@@ -30,5 +30,6 @@ CREATE TABLE IF NOT EXISTS field(
     binary_file_id UUID REFERENCES binary_file(id),
     field_description_id UUID REFERENCES field_description(id),
     value TEXT,
-    length INTEGER
+    length INTEGER,
+    serial_number INTEGER auto_increment,
 );

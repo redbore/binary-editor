@@ -16,6 +16,6 @@ public class View {
     @JsonProperty("specification")
     private File specification;
 
-    @JsonProperty("table_descriptions")
-    private List<TableDescription> tableDescriptions;
+    @JsonProperty("tables_descriptions")
+    private List<TableDescription> tablesDescriptions;
 }

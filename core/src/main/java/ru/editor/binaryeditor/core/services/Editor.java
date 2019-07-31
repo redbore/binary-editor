@@ -36,7 +36,6 @@ public class Editor {
         BinaryFile binaryFile = binaryFileOptional.get();
 
         List<Segment> segments = segmentDao.getAll(specification.id());
-
         List<FieldDescription> fieldDescriptions = fieldDescriptionDao
                 .getAllBySpecificationId(specification.id());
 
@@ -75,7 +74,6 @@ public class Editor {
     public void open(BinaryFile binaryFile, Specification specification) throws Exception {
         binaryFile = binaryFile.id() != null ? binaryFileDao.getWithBody() : binaryFile.id(randomUUID());
         specification = specification.id() != null ? specificationDao.getWithBody() : specification.id(randomUUID());
-
         clean();
         specificationDao.insert(specification);
         binaryFileDao.insert(binaryFile);
