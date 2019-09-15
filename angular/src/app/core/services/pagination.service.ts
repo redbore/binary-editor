@@ -1,38 +1,60 @@
 import {Injectable} from "@angular/core";
+import {PageNumber} from "../domain/PageNumber";
 
 @Injectable()
 export class PaginationService {
+    readonly rowCounts: Array<number> = [10, 20, 50, 100, 200];
+    selectedRowCount: number = this.rowCounts[0];
+    maxRowCount: number = 1;
 
-    viewRowCounts: Array<number> = [5, 10, 20, 50, 100, 200]; // migrate to json
-    selectedViewRowCount: number = this.viewRowCounts[0];
-    pageNumber: number = 1;
-    tableRowCount: number = 1;
+    readonly maxPageCount: number = 10;
+    readonly maxNoCalculatePageNumber: number = this.maxPageCount / 2;
 
-    pageNumbers: Array<number>;
+    pageNumbers: Array<PageNumber>;
+    selectedPageNumber: number = 1;
 
     calculatePageNumbers() {
-        let pageCount = this.tableRowCount / this.selectedViewRowCount;
-        if (pageCount < 1) {
-            pageCount = 1;
-        }
-        if (pageCount > 10) {
-            pageCount = 10
-        }
+        let pageCount = Math.ceil(this.maxRowCount / this.selectedRowCount);
+        let maxPageCount = pageCount;
 
-        let array = new Array<number>(pageCount);
-        for (let i = this.pageNumber, j = 0; i < this.pageNumber + pageCount; i++, j++) {
-            array[j] = i;
+        if (maxPageCount > this.maxPageCount) {
+            maxPageCount = this.maxPageCount
         }
-        this.pageNumbers = array;
+        let pageNumbers = new Array<PageNumber>();
+        let startPageNumber = 1;
+
+        if (this.selectedPageNumber > this.maxNoCalculatePageNumber) {
+            if (this.selectedPageNumber > pageCount - this.maxNoCalculatePageNumber) {
+                startPageNumber = startPageNumber + pageCount - this.maxPageCount;
+            } else {
+                startPageNumber = startPageNumber + this.selectedPageNumber - this.maxNoCalculatePageNumber;
+            }
+        }
+        let endPageNumber = startPageNumber + maxPageCount;
+
+        for (let pageNumber = startPageNumber; pageNumber < endPageNumber; pageNumber++) {
+            pageNumbers.push(new PageNumber(pageNumber, pageNumber == this.selectedPageNumber));
+        }
+        this.pageNumbers = pageNumbers;
     }
 
-    setPageNumber(pageNumber: number) {
-        this.pageNumber = pageNumber;
+    goToStart() {
+        this.selectedPageNumber = 1;
         this.calculatePageNumbers();
     }
 
-    setViewRowCount(viewRowCount: number) {
-        this.selectedViewRowCount = viewRowCount;
+    goToEnd() {
+        this.selectedPageNumber = Math.ceil(this.maxRowCount / this.selectedRowCount);
+        this.calculatePageNumbers();
+    }
+
+    selectPageNumber(selectedPageNumber: number) {
+        this.selectedPageNumber = selectedPageNumber;
+        this.calculatePageNumbers();
+    }
+
+    selectRowCount(selectedRowCount: number) {
+        this.selectedRowCount = selectedRowCount;
         this.calculatePageNumbers();
     }
 }

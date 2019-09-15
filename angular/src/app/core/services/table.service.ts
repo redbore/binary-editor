@@ -21,15 +21,15 @@ export class TableService {
 
     public selectTable(id: String) {
         this.selectedTable = this.tablesDescriptions.find(td => td.id === id);
-        this.paginationService.tableRowCount = this.selectedTable.row_count;
+        this.paginationService.maxRowCount = this.selectedTable.row_count;
         this.paginationService.calculatePageNumbers();
         this.getRows();
     }
 
     public getRows() {
-        console.log(this.selectedTable.id, this.paginationService.pageNumber, this.paginationService.selectedViewRowCount);
+        console.log(this.selectedTable.id, this.paginationService.selectedPageNumber, this.paginationService.selectedRowCount);
         this.apiService.pagination(
-            this.selectedTable.id, this.paginationService.pageNumber, this.paginationService.selectedViewRowCount
+            this.selectedTable.id, this.paginationService.selectedPageNumber, this.paginationService.selectedRowCount
         ).subscribe(resp => {
             console.log(resp);
             this.rows = resp
