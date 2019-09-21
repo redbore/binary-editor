@@ -29,16 +29,22 @@
 
     <div class="right-element">
         <div class="pagination-element">
-            <ul class="pagination">
-                <select class="form-control select-element" (change)="selectViewRowCount($event.target.value)">
-                    <option *ngFor="let rowCount of paginationService.viewRowCounts"
-                            value="{{rowCount}}">{{rowCount}}</option>
-                </select>
-
-                <button *ngFor="let pageNumber of paginationService.pageNumbers"
-                        (click)="selectPageNumber(pageNumber)"
-                        class="pagination-btn">{{pageNumber}}</button>
-            </ul>
+            <select class="form-control select-element select-row-element"
+                    (change)="selectRowCount($event.target.value)">
+                <option *ngFor="let rowCount of paginationService.rowCounts"
+                        value="{{rowCount}}">{{rowCount}}</option>
+            </select>
+            <button type="button" (click)="goToStart()" class="pagination-btn">
+                <img src="assets/left.png" width="17" height="17">
+            </button>
+            <button type="button" *ngFor="let pageNumber of paginationService.pageNumbers"
+                    (click)="selectPageNumber(pageNumber.value)"
+                    [ngClass]="pageNumber.isSelect ? 'pagination-btn selected-pagination-btn' : 'pagination-btn'">
+                <div>{{pageNumber.value}}</div>
+            </button>
+            <button type="button" (click)="goToEnd()" class="pagination-btn">
+                <img src="assets/right.png" width="17" height="17">
+            </button>
         </div>
     </div>
 </div>

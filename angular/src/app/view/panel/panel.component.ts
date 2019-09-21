@@ -12,10 +12,10 @@ import {TableService} from "../../core/services/table.service";
 })
 export class PanelComponent implements OnInit {
 
-    private readonly panelService: PanelService;
-    private readonly errorHandler: ErrorHandler;
-    private readonly paginationService: PaginationService;
-    private readonly tableService: TableService;
+    public readonly panelService: PanelService;
+    public readonly errorHandler: ErrorHandler;
+    public readonly paginationService: PaginationService;
+    public readonly tableService: TableService;
 
     constructor(
         panelService: PanelService,
@@ -35,17 +35,27 @@ export class PanelComponent implements OnInit {
         })
     }
 
+    public goToStart() {
+        this.paginationService.goToStart();
+        this.tableService.getRows();
+    }
+
+    public goToEnd() {
+        this.paginationService.goToEnd();
+        this.tableService.getRows();
+    }
+
     public selectTable(tableId: String) {
         this.tableService.selectTable(tableId);
     }
 
-    public selectViewRowCount(viewRowCount: number) {
-        this.paginationService.setViewRowCount(viewRowCount);
+    public selectRowCount(selectedRowCount: number) {
+        this.paginationService.selectRowCount(selectedRowCount);
         this.tableService.getRows();
     }
 
     public selectPageNumber(pageNumber: number) {
-        this.paginationService.setPageNumber(pageNumber);
+        this.paginationService.selectPageNumber(pageNumber);
         this.tableService.getRows();
     }
 
