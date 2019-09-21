@@ -1,17 +1,35 @@
-.panel-btn {
+.modal-btn {
     background-color: #242F3D !important;
     font-size: 19px !important;
     border-radius: 0 !important;
+    margin: 1px 1px 1px 1px;
 }
 
-.modal-body {
-    padding: 0 !important;
-    border: none;
+.field-edit-modal {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 100%;
 }
 
-.modal-footer {
-    padding: 0 !important;
-    background: #0E1621;
+.field-edit-modal-content {
+    margin-top: 163px;
+    width: 30%;
+    height: 30%;
+}
+
+.field-text {
+    width: 100%;
+    height: 100%;
+}
+
+.field {
+    cursor: pointer;
 }
 
 textarea {

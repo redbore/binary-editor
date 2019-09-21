@@ -1,3 +1,9 @@
+<div *ngIf="isOpenModal" class="field-edit-modal">
+    <div class="field-edit-modal-content">
+        <textarea [(ngModel)]="openedField.value" class="field-text"></textarea>
+        <button class="btn btn-dark modal-btn" (click)="editField()">Close</button>
+    </div>
+</div>
 <table *ngIf="tableService.selectedTable != null" class="table table-bordered">
     <thead>
     <tr>
@@ -6,25 +12,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let row of tableService.rows">
-        <td *ngFor="let field of row.fields">{{field.value}}</td>
+        <td class="field" (click)="openModal(field)" *ngFor="let field of row.fields">{{field.value}}</td>
     </tr>
     </tbody>
 </table>
-
-
-<button type="button" class="btn btn-primary" (click)="modal" data-toggle="modal"
-        data-target="#exampleModalCenter"></button>
-
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <textarea class="form-control text-area-element" rows="10"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark panel-btn">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
