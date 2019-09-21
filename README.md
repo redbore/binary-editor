@@ -52,13 +52,13 @@ Manager: Column name.
 - type - (**required**)
 ```
 File parser: Field type. Needed to correctly determine the size of the number. 
-    - **string** - string type, needs length 
-    - **int8** - 1 byte integer
-    - **int16** - 2 byte integer
-    - **int32** - 4 byte integer
-    - **int64** - 8 byte integer
-    - **float32** - 4 byte real number
-    - **float64** - 8 byte real number
+    - string - string type, needs length 
+    - int8 - 1 byte integer
+    - int16 - 2 byte integer
+    - int32 - 4 byte integer
+    - int64 - 8 byte integer
+    - float32 - 4 byte real number
+    - float64 - 8 byte real number
 ```
 - length
 ```
