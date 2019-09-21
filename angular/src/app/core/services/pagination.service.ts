@@ -14,24 +14,23 @@ export class PaginationService {
     selectedPageNumber: number = 1;
 
     calculatePageNumbers() {
+        let pageNumbers = new Array<PageNumber>();
         let pageCount = Math.ceil(this.maxRowCount / this.selectedRowCount);
         let maxPageCount = pageCount;
-
-        if (maxPageCount > this.maxPageCount) {
-            maxPageCount = this.maxPageCount
-        }
-        let pageNumbers = new Array<PageNumber>();
         let startPageNumber = 1;
 
-        if (this.selectedPageNumber > this.maxNoCalculatePageNumber && pageCount > this.maxPageCount) {
-            if (this.selectedPageNumber > pageCount - this.maxNoCalculatePageNumber) {
+        if (maxPageCount > this.maxPageCount) {
+
+            maxPageCount = this.maxPageCount;
+            if (this.selectedPageNumber <= this.maxNoCalculatePageNumber) {
+                startPageNumber = 1;
+            } else if (this.selectedPageNumber > pageCount - this.maxNoCalculatePageNumber) {
                 startPageNumber = startPageNumber + pageCount - this.maxPageCount;
             } else {
                 startPageNumber = startPageNumber + this.selectedPageNumber - this.maxNoCalculatePageNumber;
             }
         }
         let endPageNumber = startPageNumber + maxPageCount;
-
         for (let pageNumber = startPageNumber; pageNumber < endPageNumber; pageNumber++) {
             pageNumbers.push(new PageNumber(pageNumber, pageNumber == this.selectedPageNumber));
         }

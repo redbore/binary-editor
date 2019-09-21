@@ -41,7 +41,7 @@
             </button>
             <button type="button" *ngFor="let pageNumber of paginationService.pageNumbers"
                     (click)="selectPageNumber(pageNumber.value)"
-                    [ngClass]="pageNumber.isSelect ? 'pagination-btn selected-pagination-btn' : 'pagination-btn'">
+                    [ngClass]="pageNumber.isSelected ? 'pagination-btn selected-pagination-btn' : 'pagination-btn'">
                 <div>{{pageNumber.value}}</div>
             </button>
             <button type="button" (click)="goToEnd()" class="pagination-btn">

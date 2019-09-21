@@ -1,9 +1,9 @@
 export class PageNumber {
     value: number;
-    isSelect: boolean;
+    isSelected: boolean;
 
-    constructor(value: number, isSelect: boolean) {
+    constructor(value: number, isSelected: boolean) {
         this.value = value;
-        this.isSelect = isSelect;
+        this.isSelected = isSelected;
     }
 }
