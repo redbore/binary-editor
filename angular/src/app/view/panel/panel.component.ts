@@ -45,7 +45,7 @@ export class PanelComponent implements OnInit {
         this.tableService.getRows();
     }
 
-    public selectTable(tableId: String) {
+    public selectTable(tableId: string) {
         this.tableService.selectTable(tableId);
     }
 

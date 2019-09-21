@@ -1,9 +1,9 @@
 export class Field {
 
-    id: String;
-    value: String;
+    id: string;
+    value: string;
 
-    constructor(id: String, value: String) {
+    constructor(id: string, value: string) {
         this.id = id;
         this.value = value;
     }

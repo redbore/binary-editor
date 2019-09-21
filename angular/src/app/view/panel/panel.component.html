@@ -2,8 +2,10 @@
 <div class="panel">
     <div class="left-element">
         <div class="operation-element">
-            <button type="button" class="btn btn-dark panel-btn" (click)="open()"><label>Open</label></button>
-            <button type="button" class="btn btn-dark panel-btn"><label>Save</label></button>
+            <button type="button" class="btn btn-dark panel-btn" (click)="panelService.openFiles()"><label>Open</label>
+            </button>
+            <button type="button" class="btn btn-dark panel-btn" (click)="panelService.save()"><label>Save</label>
+            </button>
         </div>
         <div class="file-element">
             <button type="button" class="btn btn-dark panel-btn"><label for="spec">Spec</label></button>

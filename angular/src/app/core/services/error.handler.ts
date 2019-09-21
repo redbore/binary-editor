@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 
 @Injectable()
 export class ErrorHandler {
-    public message: String = null;
+    public message: string = null;
 
     public handle(func: any) {
         try {

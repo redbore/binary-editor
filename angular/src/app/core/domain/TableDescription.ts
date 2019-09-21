@@ -1,10 +1,10 @@
 export class TableDescription {
-    id: String;
-    name: String;
+    id: string;
+    name: string;
     row_count: number;
-    columns_names: Array<String>;
+    columns_names: Array<string>;
 
-    constructor(id: String, name: String, row_count: number, columns_names: Array<String>) {
+    constructor(id: string, name: string, row_count: number, columns_names: Array<string>) {
         this.id = id;
         this.name = name;
         this.row_count = row_count;

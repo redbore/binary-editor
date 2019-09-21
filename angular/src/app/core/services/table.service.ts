@@ -19,7 +19,7 @@ export class TableService {
         this.apiService = apiService;
     }
 
-    public selectTable(id: String) {
+    public selectTable(id: string) {
         this.selectedTable = this.tablesDescriptions.find(td => td.id === id);
         this.paginationService.maxRowCount = this.selectedTable.row_count;
         this.paginationService.calculatePageNumbers();

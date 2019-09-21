@@ -14,6 +14,10 @@ export class ApiService {
         this.host = environment.backendHost;
     }
 
+    public save(): Observable<EditorFile> {
+        return this.post("/save")
+    }
+
     public open(binary: EditorFile, spec: EditorFile): Observable<any> {
         return this.post("/open", {
             specification: spec,
@@ -21,7 +25,7 @@ export class ApiService {
         })
     }
 
-    public pagination(tableId: String, pageNumber: number, rowCount: number): Observable<Array<Row>> {
+    public pagination(tableId: string, pageNumber: number, rowCount: number): Observable<Array<Row>> {
         return this.get("/pagination/tables/" + tableId + "?page_number=" + pageNumber + "&row_count=" + rowCount)
     }
 

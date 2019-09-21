@@ -23,7 +23,7 @@ export class PaginationService {
         let pageNumbers = new Array<PageNumber>();
         let startPageNumber = 1;
 
-        if (this.selectedPageNumber > this.maxNoCalculatePageNumber) {
+        if (this.selectedPageNumber > this.maxNoCalculatePageNumber && pageCount > this.maxPageCount) {
             if (this.selectedPageNumber > pageCount - this.maxNoCalculatePageNumber) {
                 startPageNumber = startPageNumber + pageCount - this.maxPageCount;
             } else {
