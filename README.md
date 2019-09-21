@@ -1,3 +1,5 @@
+### Binary editor helps to parse files and edit them by specification
+
 # Specification
 ## Example
 ```xml
@@ -14,26 +16,42 @@
 
 ### `<segments>`
 ```
-Segment list
+File parser: Segment list. 
+Manager: Table list
 ```
 `attributes:`
  
 ### `<segment>`
-
 ```
-Description of the groups of types, we need to separate the fields in the sense. Can have more than one instance
+File parser: Field groups description.
+Manager: Table description.
 ```
 `attributes:`
-- name - Segment name (**required**, **unique**)
-- count(may be a link) - Number of repetitions of the next segment 
-
+- name - (**required**, **unique**)
+```
+File parser: Segment name. 
+Manager: Table name.
+```
+- count - (**default 1**)
+```
+File parser: Retry count. May be a link. 
+Manager: Rows count.
+```
 ### `<field>`
 ```
-Description of a specific type in a binary file
+File parser: Specific type description.
+Manager: Column description.
 ```
+
 `attributes:`
-- name - Field name (**required**, **unique**)
-- type - Field type. Needed to correctly determine the size of the number (**required**)
+- name - (**required**, **unique**)
+```
+File parser: Field name. 
+Manager: Column name.
+```
+- type - (**required**)
+```
+File parser: Field type. Needed to correctly determine the size of the number. 
     - **string** - string type, needs length 
     - **int8** - 1 byte integer
     - **int16** - 2 byte integer
@@ -41,4 +59,8 @@ Description of a specific type in a binary file
     - **int64** - 8 byte integer
     - **float32** - 4 byte real number
     - **float64** - 8 byte real number
-- length(may be a link) - Length of string type
+```
+- length
+```
+File parser: String type length. May be a link
+```
