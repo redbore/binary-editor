@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import rest.*;
-import ru.editor.binaryeditor.core.dao.FieldDescriptionDao;
 import ru.editor.binaryeditor.core.domain.FieldDescription;
 import ru.editor.binaryeditor.core.services.Editor;
 
@@ -23,7 +22,6 @@ import static ru.editor.binaryeditor.server.controllers.Endpoint.*;
 public class EditorController {
 
     private final Editor editor;
-    private final FieldDescriptionDao fieldDescriptionDao;
 
     @PostMapping(OPEN)
     @ResponseStatus(OK)
@@ -60,11 +58,11 @@ public class EditorController {
             @RequestParam(value = "page_number") Long pageNumber,
             @RequestParam(value = "row_count") Long rowCount
     ) {
-        Long count = fieldDescriptionDao.getCount(segmentId);
+        Long count = editor.getFieldCount(segmentId);
         Long limit = rowCount * count;
         Long offset = limit * (pageNumber - 1);
 
-        List<FieldDescription> fieldDescriptions = fieldDescriptionDao.getAllBySegmentId(segmentId);
+        List<FieldDescription> fieldDescriptions = editor.getFieldDescriptions(segmentId);
         return toRows(editor.pagination(segmentId, limit, offset), fieldDescriptions.size());
     }
 

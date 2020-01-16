@@ -99,4 +99,11 @@ public class Editor {
         binaryFileDao.clean();
     }
 
+    public Long getFieldCount(UUID segmentId) {
+        return fieldDescriptionDao.getCount(segmentId);
+    }
+
+    public List<FieldDescription> getFieldDescriptions(UUID segmentId) {
+        return fieldDescriptionDao.getAllBySegmentId(segmentId);
+    }
 }
